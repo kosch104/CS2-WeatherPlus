@@ -21,7 +21,9 @@
 	<!--Thumbnail-->
 	<Thumbnail Value="Properties/Thumbnail.png" />
 	<!--Screenshot, can be set multiple times-->
-	<Screenshot Value="Properties/Image1.png, Properties/Image2.png, Properties/Image3.png" />
+	<Screenshot Value="Properties/Image1.png" />
+	<Screenshot Value="Properties/Image2.png" />
+	<Screenshot Value="Properties/Image3.png" />
 	<!--Tag, can be set multiple times-->
 	<Tag Value="" />
 	<!--Link to the forum post where the mod can be discussed-->

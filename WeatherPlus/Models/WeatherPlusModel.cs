@@ -2,6 +2,8 @@
 
 namespace WeatherPlus.Models
 {
+
+   
     public class WeatherPlusModel : Model
     {
         public bool IsVisible
@@ -26,7 +28,7 @@ namespace WeatherPlus.Models
         {
             get;
             set;
-        } = 26;
+        }
 
         public bool TemperatureOverride
         {

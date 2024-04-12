@@ -8,12 +8,15 @@ using System.Data;
 using Game.Simulation;
 using Microsoft.CSharp;
 using Colossal.Logging;
+using Gooee;
+using Gooee.Helpers;
 
 namespace WeatherPlus.UI
 {
     public partial class WeatherPlusController : Controller<WeatherPlusModel>
     {
         public DanielsWeatherSystem _weatherSystem;
+
 
 
         public float newValue = 48;
@@ -24,7 +27,8 @@ namespace WeatherPlus.UI
             _weatherSystem = World.GetOrCreateSystemManaged<DanielsWeatherSystem>( );
             Mod.DebugLog("Weather System found on Controller");
 
-
+          
+            
             return new WeatherPlusModel( );
         }
 
@@ -38,11 +42,13 @@ namespace WeatherPlus.UI
             if (_weatherSystem._climateSystem != null && Model.TemperatureOverride == true)
             {
                 _weatherSystem._climateSystem.temperature.overrideState = true;
+                Mod.m_Setting.TemperatureOverride = true;
                 Mod.DebugLog("Temperature override state set successfully" + Model.TemperatureOverride);
             } 
             else if (_weatherSystem._climateSystem != null && Model.TemperatureOverride == false)
                 {
                 _weatherSystem._climateSystem.temperature.overrideState = false;
+                Mod.m_Setting.TemperatureOverride = false;
                 Mod.DebugLog("Temperature override state set successfully to false" + Model.TemperatureOverride);
             }
 
@@ -64,6 +70,7 @@ namespace WeatherPlus.UI
             if (_weatherSystem._climateSystem != null)
             {
                 _weatherSystem._climateSystem.temperature.overrideValue = Model.Temperature;
+                Mod.m_Setting.Temperature = Model.Temperature;
                 Model.TemperatureOverride = true;
                 Mod.DebugLog("Temperature successfully set " + Model.Temperature);
             }
@@ -98,10 +105,17 @@ namespace WeatherPlus.UI
                 // Update the time in _planetarySystem
                 _weatherSystem._climateSystem.precipitation.overrideState = true;
                 _weatherSystem._climateSystem.precipitation.overrideValue = 0.998f;
+                Mod.m_Setting.RainAmount = 0.999f;
+                Mod.m_Setting.RainOverride = true;
+
                 _weatherSystem._climateSystem.cloudiness.overrideState = true;
                 _weatherSystem._climateSystem.cloudiness.overrideValue = 0.998f;
+                Mod.m_Setting.CloudAmount = 0.999f;
+                Mod.m_Setting.CloudsOverride = true;
                 _weatherSystem._climateSystem.temperature.overrideState = true;
                 _weatherSystem._climateSystem.temperature.overrideValue = 10.0f;
+                Mod.m_Setting.Temperature = 10;
+                Mod.m_Setting.TemperatureOverride = true;
                 Mod.DebugLog("Rain successfully set");
             }
             else
@@ -135,12 +149,19 @@ namespace WeatherPlus.UI
             if (_weatherSystem._climateSystem != null)
             {
                 // Update the time in _planetarySystem
+                
                 _weatherSystem._climateSystem.precipitation.overrideState = true;
                 _weatherSystem._climateSystem.precipitation.overrideValue = 0.998f;
+                Mod.m_Setting.RainAmount = 0.999f;
+                Mod.m_Setting.RainOverride = true;
                 _weatherSystem._climateSystem.cloudiness.overrideState = true;
                 _weatherSystem._climateSystem.cloudiness.overrideValue = 0.998f;
+                Mod.m_Setting.CloudAmount = 0.999f;
+                Mod.m_Setting.CloudsOverride = true;
                 _weatherSystem._climateSystem.temperature.overrideState = true;
                 _weatherSystem._climateSystem.temperature.overrideValue = -10.0f;
+                Mod.m_Setting.Temperature = -10;
+                Mod.m_Setting.TemperatureOverride = true;
                 Mod.DebugLog("Snow successfully set");
             }
             else
@@ -170,11 +191,18 @@ namespace WeatherPlus.UI
             {
 
                 _weatherSystem._climateSystem.precipitation.overrideState = true;
+ 
+                Mod.m_Setting.RainOverride = true;
                 _weatherSystem._climateSystem.cloudiness.overrideState = true;
+                Mod.m_Setting.CloudsOverride = true;
                 _weatherSystem._climateSystem.cloudiness.overrideValue = 0.0f;
+                Mod.m_Setting.CloudAmount = 0.0f;
                 _weatherSystem._climateSystem.precipitation.overrideValue = 0.0f;
+                Mod.m_Setting.RainAmount = 0.0f;
                 _weatherSystem._climateSystem.temperature.overrideState = true;
+                Mod.m_Setting.TemperatureOverride = true;
                 _weatherSystem._climateSystem.temperature.overrideValue = 26.0f;
+                Mod.m_Setting.Temperature = 26;
 
                 Mod.DebugLog("Sun successfully set");
             }
@@ -209,10 +237,15 @@ namespace WeatherPlus.UI
             {
                 // Update the time in _planetarySystem
                 _weatherSystem._climateSystem.precipitation.overrideState = false;
+                Mod.m_Setting.RainOverride = false;
                 _weatherSystem._climateSystem.cloudiness.overrideState = false;
+                Mod.m_Setting.CloudsOverride = false;
                 _weatherSystem._climateSystem.temperature.overrideState = false;
+                Mod.m_Setting.TemperatureOverride = false;
                 Model.TemperatureOverride = false;
+                Mod.DebugLog("Night successfully set");
                 Model.Temperature = (int)_weatherSystem._climateSystem.temperature.value;
+
 
 
                 Mod.DebugLog("Sun successfully set");
@@ -255,6 +288,8 @@ namespace WeatherPlus.UI
                 // Update the time in _planetarySystem
                 _weatherSystem._planetarySystem.overrideTime = true;
                 _weatherSystem._planetarySystem.time = 0f;
+                Mod.m_Setting.OverrideTime = true;
+                Mod.m_Setting.Time = 0f;
                 Mod.DebugLog("Night successfully set");
             }
             else
@@ -288,6 +323,7 @@ namespace WeatherPlus.UI
             {
                 // Update the time in _planetarySystem
                 _weatherSystem._planetarySystem.overrideTime = false;
+                Mod.m_Setting.OverrideTime = false;
                 Mod.DebugLog("Night successfully set");
             }
             else
@@ -322,6 +358,8 @@ namespace WeatherPlus.UI
                 // Update the time in _planetarySystem
                 _weatherSystem._planetarySystem.overrideTime = true;
                 _weatherSystem._planetarySystem.time = 12f;
+                Mod.m_Setting.OverrideTime = true;
+                Mod.m_Setting.Time = 12f;
                 Mod.DebugLog("Night successfully set");
             }
             else
