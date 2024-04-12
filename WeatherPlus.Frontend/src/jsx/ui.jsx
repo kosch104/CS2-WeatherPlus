@@ -1,6 +1,6 @@
 import React from "react";
 
-const ExampleMainContainer = ({ react, setupController }) => {
+const WeatherPlusContainer = ({ react, setupController }) => {
     const { Icon, Button, TabModal } = window.$_gooee.framework;
 
     const { model, update, trigger } = setupController();
@@ -28,54 +28,53 @@ const ExampleMainContainer = ({ react, setupController }) => {
     const tabs = [
         {
             name: "Time of Day",
-            label: <div> Time of Day
+            label: <div className="tab-label"> Time of Day
                 <Icon icon="clock" fa />
             </div>,
             content:
                 <div>
                     <h4 className="mb-2">{model.Message}</h4>
-                    <Button color="primary" onClick={() => trigger("OnSetNight")}>Set Night</Button> 
+                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetNight")}><Icon icon="moon" fa />&nbsp;Night</Button>
                     <span> </span>
-                    <Button color="primary" onClick={() => trigger("OnSetDay")}>Set Day</Button>
+                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetDay")}><Icon icon="sun" fa />&nbsp;Day</Button>
                     <span> </span>
-                    <Button color="primary" onClick={() => trigger("OnSetDefault")}>Use Default</Button>
-                    <span> </span>
-                    <h4>Set Temperature</h4>
-                    <span> </span>
-                    <FormCheckBox checked={model.TemperatureOverride} onToggle={value => onTemperatureOverride(value)} />
-                    <span> </span>    
-                    <Slider
-                        value={toSliderValue}
-                        onValueChanged={(value) => onTemperatureChanged(value - 50)}
-                    />
-
+                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetDefault")}><Icon icon="hand" fa />&nbsp;Use Default</Button>
                 </div>
-
-                
-        }, {
+        },
+        {
             name: "Weather",
-            label: <div> Weather
+            label: <div className="tab-label"> Weather
                 <Icon icon="sun" fa />
             </div>,
             content:
                 <div>
                     <h4 className="mb-2">{model.MessageRain}</h4>
-                    <Button color="primary" onClick={() => trigger("OnSetRain")}>Rain</Button>
+                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetRain")}>Rain</Button>
                     <span> </span>
-                    <Button color="primary" onClick={() => trigger("OnSetSnow")}>Snow</Button>
+                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetSnow")}>Snow</Button>
                     <span> </span>
-                    <Button color="primary" onClick={() => trigger("OnSetSun")}>Sun</Button>
+                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetSun")}>Sun</Button>
                     <span> </span>
-                    <Button color="primary" onClick={() => trigger("OnSetDefaults")}>Default</Button>
+                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetDefaults")}>Default</Button>
+                    <span> </span>
+                    <h4>Set Temperature</h4>
+                    <span> </span>
+                    <FormCheckBox checked={model.TemperatureOverride} onToggle={value => onTemperatureOverride(value)} />
+                    <span> </span>
+                    <Slider
+                        value={toSliderValue}
+                        onValueChanged={(value) => onTemperatureChanged(value - 50)}
+                    />
                 </div>
-        }]; 
+        }
+    ];
 
     const closeModal = () => {
         update("IsVisible", false);
         engine.trigger("audio.playSound", "close-panel", 1);
     };
 
-    return model.IsVisible ? <TabModal size="sm" tabs={tabs} onClose={closeModal} fixed /> : null;
+    return model.IsVisible ? <TabModal size="medium" tabs={tabs} onClose={closeModal} fixed className="WeatherPlusContainer" /> : null;
 };
 
-window.$_gooee.register("weatherplus", "ExampleMainContainer", ExampleMainContainer, "main-container", "weatherplus");
+window.$_gooee.register("weatherplus", "WeatherPlusContainer", WeatherPlusContainer, "main-container", "weatherplus");

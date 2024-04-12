@@ -73,14 +73,14 @@ namespace WeatherPlus
 
 
     [ControllerTypes(typeof(WeatherPlusController))]
-    [PluginToolbar(typeof(WeatherPlusController), "OnToggleVisible", "WeatherPlus", "Media/Game/Icons/Photomode.svg")]
+    [PluginToolbar(typeof(WeatherPlusController), "OnToggleVisible", "Weather Plus", "Media/Game/Climate/Sun.svg")]
     public class WeatherPlusPlugin : IGooeePluginWithControllers
     {
         public string Name => "WeatherPlus";
 
         public string ScriptResource => "WeatherPlus.Resources.ui.js";
 
-        public string StyleResource => null;
+        public string StyleResource => "WeatherPlus.Frontend.src.style.style.scss";
 
         public IController[] Controllers
         {

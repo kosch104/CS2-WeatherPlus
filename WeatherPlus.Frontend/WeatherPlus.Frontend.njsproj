@@ -32,10 +32,12 @@
     <Content Include="package.json" />
     <Content Include="src\jsx\ui.jsx" />
     <Content Include="src\jsx\_test.js.dump" />
+    <Content Include="src\style\style.scss" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="src\" />
     <Folder Include="src\jsx\" />
+    <Folder Include="src\style\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
 </Project>

@@ -1,0 +1,56 @@
+// style.scss
+
+// Define styles for ExampleMainContainer component
+.ExampleMainContainer {
+    background-color: #f0f0f0; // Light gray background
+    border-radius: 8px; // Rounded corners
+    padding: 20px; // Add some padding
+
+    .tab-content {
+        padding: 20px; // Add padding to tab content area
+        border-top: 2px solid #ccc; // Add a border at the top
+    }
+
+    .btn {
+        background-color: #007bff; // Blue button background
+        color: #fff; // White text color
+        border: none; // No border
+        padding: 10px 20px; // Padding
+        margin-right: 10px; // Add some space between buttons
+        cursor: pointer; // Add cursor pointer
+        transition: background-color 0.3s ease; // Smooth transition for background color
+
+        &:hover {
+            background-color: #0056b3; // Darker blue on hover
+        }
+    }
+
+    .mb-2 {
+        margin-bottom: 20px; // Increased margin-bottom
+        font-size: 1.2rem; // Larger font size
+        color: #333; // Dark gray text color
+    }
+    // Add more styles as needed
+}
+
+// Define specific styles for tabs
+.tab-pane {
+    padding: 20px; // Add padding to individual tab panes
+    display: flex; // Make tabs flex containers
+    flex-direction: column; // Arrange tab content vertically
+
+    h4 {
+        margin-bottom: 15px; // Add margin below headings
+        color: #007bff; // Blue heading color
+    }
+
+    .form-check-label {
+        color: #555; // Dark gray for form checkbox labels
+    }
+
+    .slider {
+        margin-top: 15px; // Add space above slider
+    }
+}
+
+// Add more specific styles as needed

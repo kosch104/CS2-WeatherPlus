@@ -1912,7 +1912,7 @@
 
   // src/jsx/ui.jsx
   var import_react = __toESM(require_react());
-  var ExampleMainContainer = ({ react, setupController }) => {
+  var WeatherPlusContainer = ({ react, setupController }) => {
     const { Icon, Button, TabModal } = window.$_gooee.framework;
     const { model, update, trigger } = setupController();
     const { Slider } = window.$_gooee.framework;
@@ -1934,28 +1934,28 @@
     const tabs = [
       {
         name: "Time of Day",
-        label: /* @__PURE__ */ import_react.default.createElement("div", null, " Time of Day", /* @__PURE__ */ import_react.default.createElement(Icon, { icon: "clock", fa: true })),
-        content: /* @__PURE__ */ import_react.default.createElement("div", null, /* @__PURE__ */ import_react.default.createElement("h4", { className: "mb-2" }, model.Message), /* @__PURE__ */ import_react.default.createElement(Button, { color: "primary", onClick: () => trigger("OnSetNight") }, "Set Night"), /* @__PURE__ */ import_react.default.createElement("span", null, " "), /* @__PURE__ */ import_react.default.createElement(Button, { color: "primary", onClick: () => trigger("OnSetDay") }, "Set Day"), /* @__PURE__ */ import_react.default.createElement("span", null, " "), /* @__PURE__ */ import_react.default.createElement(Button, { color: "primary", onClick: () => trigger("OnSetDefault") }, "Use Default"), /* @__PURE__ */ import_react.default.createElement("span", null, " "), /* @__PURE__ */ import_react.default.createElement("h4", null, "Set Temperature"), /* @__PURE__ */ import_react.default.createElement("span", null, " "), /* @__PURE__ */ import_react.default.createElement(FormCheckBox, { checked: model.TemperatureOverride, onToggle: (value) => onTemperatureOverride(value) }), /* @__PURE__ */ import_react.default.createElement("span", null, " "), /* @__PURE__ */ import_react.default.createElement(
+        label: /* @__PURE__ */ import_react.default.createElement("div", { className: "tab-label" }, " Time of Day", /* @__PURE__ */ import_react.default.createElement(Icon, { icon: "clock", fa: true })),
+        content: /* @__PURE__ */ import_react.default.createElement("div", null, /* @__PURE__ */ import_react.default.createElement("h4", { className: "mb-2" }, model.Message), /* @__PURE__ */ import_react.default.createElement(Button, { style: { textAlign: "center" }, color: "primary", onClick: () => trigger("OnSetNight") }, /* @__PURE__ */ import_react.default.createElement(Icon, { icon: "moon", fa: true }), "\xA0Night"), /* @__PURE__ */ import_react.default.createElement("span", null, " "), /* @__PURE__ */ import_react.default.createElement(Button, { style: { textAlign: "center" }, color: "primary", onClick: () => trigger("OnSetDay") }, /* @__PURE__ */ import_react.default.createElement(Icon, { icon: "sun", fa: true }), "\xA0Day"), /* @__PURE__ */ import_react.default.createElement("span", null, " "), /* @__PURE__ */ import_react.default.createElement(Button, { style: { textAlign: "center" }, color: "primary", onClick: () => trigger("OnSetDefault") }, /* @__PURE__ */ import_react.default.createElement(Icon, { icon: "hand", fa: true }), "\xA0Use Default"))
+      },
+      {
+        name: "Weather",
+        label: /* @__PURE__ */ import_react.default.createElement("div", { className: "tab-label" }, " Weather", /* @__PURE__ */ import_react.default.createElement(Icon, { icon: "sun", fa: true })),
+        content: /* @__PURE__ */ import_react.default.createElement("div", null, /* @__PURE__ */ import_react.default.createElement("h4", { className: "mb-2" }, model.MessageRain), /* @__PURE__ */ import_react.default.createElement(Button, { style: { textAlign: "center" }, color: "primary", onClick: () => trigger("OnSetRain") }, "Rain"), /* @__PURE__ */ import_react.default.createElement("span", null, " "), /* @__PURE__ */ import_react.default.createElement(Button, { style: { textAlign: "center" }, color: "primary", onClick: () => trigger("OnSetSnow") }, "Snow"), /* @__PURE__ */ import_react.default.createElement("span", null, " "), /* @__PURE__ */ import_react.default.createElement(Button, { style: { textAlign: "center" }, color: "primary", onClick: () => trigger("OnSetSun") }, "Sun"), /* @__PURE__ */ import_react.default.createElement("span", null, " "), /* @__PURE__ */ import_react.default.createElement(Button, { style: { textAlign: "center" }, color: "primary", onClick: () => trigger("OnSetDefaults") }, "Default"), /* @__PURE__ */ import_react.default.createElement("span", null, " "), /* @__PURE__ */ import_react.default.createElement("h4", null, "Set Temperature"), /* @__PURE__ */ import_react.default.createElement("span", null, " "), /* @__PURE__ */ import_react.default.createElement(FormCheckBox, { checked: model.TemperatureOverride, onToggle: (value) => onTemperatureOverride(value) }), /* @__PURE__ */ import_react.default.createElement("span", null, " "), /* @__PURE__ */ import_react.default.createElement(
           Slider,
           {
             value: toSliderValue,
             onValueChanged: (value) => onTemperatureChanged(value - 50)
           }
         ))
-      },
-      {
-        name: "Weather",
-        label: /* @__PURE__ */ import_react.default.createElement("div", null, " Weather", /* @__PURE__ */ import_react.default.createElement(Icon, { icon: "sun", fa: true })),
-        content: /* @__PURE__ */ import_react.default.createElement("div", null, /* @__PURE__ */ import_react.default.createElement("h4", { className: "mb-2" }, model.MessageRain), /* @__PURE__ */ import_react.default.createElement(Button, { color: "primary", onClick: () => trigger("OnSetRain") }, "Rain"), /* @__PURE__ */ import_react.default.createElement("span", null, " "), /* @__PURE__ */ import_react.default.createElement(Button, { color: "primary", onClick: () => trigger("OnSetSnow") }, "Snow"), /* @__PURE__ */ import_react.default.createElement("span", null, " "), /* @__PURE__ */ import_react.default.createElement(Button, { color: "primary", onClick: () => trigger("OnSetSun") }, "Sun"), /* @__PURE__ */ import_react.default.createElement("span", null, " "), /* @__PURE__ */ import_react.default.createElement(Button, { color: "primary", onClick: () => trigger("OnSetDefaults") }, "Default"))
       }
     ];
     const closeModal = () => {
       update("IsVisible", false);
       engine.trigger("audio.playSound", "close-panel", 1);
     };
-    return model.IsVisible ? /* @__PURE__ */ import_react.default.createElement(TabModal, { size: "sm", tabs, onClose: closeModal, fixed: true }) : null;
+    return model.IsVisible ? /* @__PURE__ */ import_react.default.createElement(TabModal, { size: "medium", tabs, onClose: closeModal, fixed: true, className: "WeatherPlusContainer" }) : null;
   };
-  window.$_gooee.register("weatherplus", "ExampleMainContainer", ExampleMainContainer, "main-container", "weatherplus");
+  window.$_gooee.register("weatherplus", "WeatherPlusContainer", WeatherPlusContainer, "main-container", "weatherplus");
 })();
 /*! Bundled license information:
 

@@ -13,18 +13,14 @@ namespace WeatherPlus.UI
 {
     public partial class WeatherPlusController : Controller<WeatherPlusModel>
     {
-        //private readonly Mod _mod;
         public DanielsWeatherSystem _weatherSystem;
 
 
-        //private readonly Mod _mod;
         public float newValue = 48;
 
 
         public override WeatherPlusModel Configure( )
         {
-            //_weatherSystem._planetarySystem 
-            //_planetarySystem= World.GetOrCreateSystemManaged<DanielsWeatherSystem>( );
             _weatherSystem = World.GetOrCreateSystemManaged<DanielsWeatherSystem>( );
             Mod.DebugLog("Weather System found on Controller");
 
@@ -52,7 +48,6 @@ namespace WeatherPlus.UI
 
             else
             {
-                // Handle the case where _weatherSystem or _planetarySystem is null
                 Mod.DebugLog("Planetary or Weather System is null IN TEMPREATURE");
             }
 
@@ -69,6 +64,7 @@ namespace WeatherPlus.UI
             if (_weatherSystem._climateSystem != null)
             {
                 _weatherSystem._climateSystem.temperature.overrideValue = Model.Temperature;
+                Model.TemperatureOverride = true;
                 Mod.DebugLog("Temperature successfully set " + Model.Temperature);
             }
             else
@@ -149,34 +145,30 @@ namespace WeatherPlus.UI
             }
             else
             {
-                // Handle the case where _weatherSystem or _planetarySystem is null
                 Mod.DebugLog("Planetary or Weather System is null IN SNOW");
             }
 
-            // Trigger an update (assuming TriggerUpdate() is a valid method)
             TriggerUpdate();
         }
 
         [OnTrigger]
         private void OnSetSun()
         {
-            // Amend the message in the model
             if (Model != null)
             {
                 Model.MessageRain = "Currently Sunny";
             }
             else
             {
-                // Handle the case where Model is null
-                // Log or handle the error accordingly
+
                 Mod.DebugLog("Model is null");
                 return; // Exit the method early
             }
 
-            // Check if _weatherSystem and _planetarySystem are not null before accessing their members
+
             if (_weatherSystem._climateSystem != null)
             {
-                // Update the time in _planetarySystem
+
                 _weatherSystem._climateSystem.precipitation.overrideState = true;
                 _weatherSystem._climateSystem.cloudiness.overrideState = true;
                 _weatherSystem._climateSystem.cloudiness.overrideValue = 0.0f;
@@ -218,6 +210,8 @@ namespace WeatherPlus.UI
                 // Update the time in _planetarySystem
                 _weatherSystem._climateSystem.precipitation.overrideState = false;
                 _weatherSystem._climateSystem.cloudiness.overrideState = false;
+                _weatherSystem._climateSystem.temperature.overrideState = false;
+                Model.TemperatureOverride = false;
 
 
                 Mod.DebugLog("Sun successfully set");
