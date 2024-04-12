@@ -212,6 +212,7 @@ namespace WeatherPlus.UI
                 _weatherSystem._climateSystem.cloudiness.overrideState = false;
                 _weatherSystem._climateSystem.temperature.overrideState = false;
                 Model.TemperatureOverride = false;
+                Model.Temperature = (int)_weatherSystem._climateSystem.temperature.value;
 
 
                 Mod.DebugLog("Sun successfully set");

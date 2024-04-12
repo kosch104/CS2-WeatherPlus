@@ -15,11 +15,13 @@
 		Credit to @NearDivinity on discord for the mod idea
 		
 		Credit to 89pleasure, optimus-code for their help and support as well as for Gooee.
+		
+		NOTE: Unable to get icon for Rain working, using a Diamond as a placeholder for now.
 	</LongDescription>
 	<!--Thumbnail-->
 	<Thumbnail Value="Properties/Thumbnail.png" />
 	<!--Screenshot, can be set multiple times-->
-	<Screenshot Value="" />
+	<Screenshot Value="Properties/Image1.png, Properties/Image2.png, Properties/Image3.png" />
 	<!--Tag, can be set multiple times-->
 	<Tag Value="" />
 	<!--Link to the forum post where the mod can be discussed-->
@@ -31,9 +33,9 @@
 	<!--Dependency for the mod, can be set multiple times-->
 	<Dependency Id="77225" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
-	<ChangeLog Value="" />
+	<ChangeLog Value="Added Gooee Support/Removed Settings UI Page" />
 	<!--ChangeLog>
 	</ChangeLog-->
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
-	<ExternalLink Type="" Url="" />
+	<ExternalLink Type="github" Url="https://github.com/DanielVNZ/WeatherPlus" />
 </Publish>

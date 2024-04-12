@@ -38,7 +38,7 @@ const WeatherPlusContainer = ({ react, setupController }) => {
                     <span> </span>
                     <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetDay")}><Icon icon="sun" fa />&nbsp;Day</Button>
                     <span> </span>
-                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetDefault")}><Icon icon="hand" fa />&nbsp;Use Default</Button>
+                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetDefault")}><Icon icon="hand" fa />&nbsp;Default</Button>
                 </div>
         },
         {
@@ -49,13 +49,13 @@ const WeatherPlusContainer = ({ react, setupController }) => {
             content:
                 <div>
                     <h4 className="mb-2">{model.MessageRain}</h4>
-                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetRain")}>Rain</Button>
+                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetRain")}><Icon icon="gem" fa />&nbsp;Rain</Button>
                     <span> </span>
-                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetSnow")}>Snow</Button>
+                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetSnow")}><Icon icon="snowflake" fa />&nbsp;Snow</Button>
                     <span> </span>
-                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetSun")}>Sun</Button>
+                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetSun")}><Icon icon="sun" fa />&nbsp;Sun</Button>
                     <span> </span>
-                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetDefaults")}>Default</Button>
+                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetDefaults")}><Icon icon="hand" fa />&nbsp;Default</Button>
                     <span> </span>
                     <h4>Set Temperature</h4>
                     <span> </span>
