@@ -57,31 +57,31 @@ namespace WeatherPlus
         [SettingsUISearchHidden]
         [SettingsUIHidden]
         [SettingsUISection(kSection, kButtonGroup)]
-        public bool OverrideTime { get; set; } = false;
+        public bool OverrideTime { get; set; }
         [SettingsUISearchHidden]
         [SettingsUIHidden]
         [SettingsUISection(kSection, kButtonGroup)]
-        public float Time { get; set; } = 15f;
+        public float Time { get; set; } = 12; //default-required else null
         [SettingsUISearchHidden]
         [SettingsUIHidden]
         [SettingsUISection(kSection, kButtonGroup)]
-        public float CloudAmount { get; set; } = 0.500f;
+        public float CloudAmount { get; set; }
         [SettingsUISearchHidden]
         [SettingsUIHidden]
         [SettingsUISection(kSection, kButtonGroup)]
-        public bool CloudsOverride { get; set; } = false;
+        public bool CloudsOverride { get; set; }
         [SettingsUISearchHidden]
         [SettingsUIHidden]
         [SettingsUISection(kSection, kButtonGroup)]
-        public bool RainOverride { get; set; } = false;
+        public bool RainOverride { get; set; }
         [SettingsUISearchHidden]
         [SettingsUIHidden]
         [SettingsUISection(kSection, kButtonGroup)]
-        public float RainAmount { get; set; } = 0.500f;
+        public float RainAmount { get; set; }
         [SettingsUISearchHidden]
         [SettingsUIHidden]
         [SettingsUISection(kSection, kButtonGroup)]
-        public bool TemperatureOverride { get; set; } = false;
+        public bool TemperatureOverride { get; set; } 
         [SettingsUISearchHidden]
         [SettingsUIHidden]
         [SettingsUISection(kSection, kButtonGroup)]
