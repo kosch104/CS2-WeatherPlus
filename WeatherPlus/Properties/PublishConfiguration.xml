@@ -4,45 +4,45 @@
 	<!--Name of the mod to display to players-->
 	<DisplayName Value="Weather Plus" />
 	<!--Short description of the mod-->
-	<ShortDescription Value="Now with Gooee support! Easy way to control the weather" />
+	<ShortDescription Value="Now with Gooee support! Easy way to control the weather and time of day" />
 	<!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 	<!--LongDescription Value="This is a long description" /-->
 	<LongDescription>
-		### NOTE: IF YOU ARE UPDATING FROM AN OLDER VERSION, ENSURE YOU HAVE GOOEE INSTALLED!!
+		## NOTE: IF YOU ARE UPDATING FROM AN OLDER VERSION, ENSURE YOU HAVE GOOEE INSTALLED!!
 		
-		### Description:
+		## Description:
 		Easy control over the weather and time. Set a custom temperature with a bit of rain to create a humid climate, want minus 50 degree winters? no problem! Scorching hot summer? why not!
 
-		### Credit:
-		Credit to Jacob on discord for the name idea of "Weather+"
-		Credit to NearDivinity on discord for the mod idea
-		Credit to 89pleasure, optimus-code for their help and support as well as for Gooee.
+		## Credits:
+		Credit to **Jacob** on discord for the name idea of "Weather+"
+		Credit to **NearDivinity** on discord for the mod idea
+		Credit to **89pleasure**, **optimus-code** for their help and support as well as for **Gooee**.
 
-		### NOTES:
+		## NOTES:
 		Unable to get icon for Rain working, using a Diamond as a placeholder for now.
-		**SETTINGS IS NO LONGERR REQUIRED!** Click the briefcase on the top left while in game then "Weather Plus"
+		**SETTINGS IS NO LONGERR REQUIRED! Click the briefcase on the top left while in game then "Weather Plus"**
 	</LongDescription>
 	<!--Thumbnail-->
 	<Thumbnail Value="Properties/Thumbnail.jpg" />
 	<!--Screenshot, can be set multiple times-->
 	<Screenshot Value="Properties/Image0.jpg" />
-	<Screenshot Value="Properties/Image1.png" />
 	<Screenshot Value="Properties/Image2.png" />
 	<Screenshot Value="Properties/Image3.png" />
 	<!--Tag, can be set multiple times-->
-	<Tag Value="" />
+	<Tag Value="Code Mod" />
 	<!--Link to the forum post where the mod can be discussed-->
 	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/weather.1658460/" />
 	<!--Version of the mod-->
-	<ModVersion Value="1.1.7" />
+	<ModVersion Value="1.1.8" />
 	<!--Recommended version of the base game to use the mod-->
 	<GameVersion Value="1.1.*" />
 	<!--Dependency for the mod, can be set multiple times-->
 	<Dependency Id="77225" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
-	<ChangeLog Value="Fixed a bug causing rain to start automatically on first install" />
-	<!--ChangeLog>
-	</ChangeLog-->
+	<ChangeLog># Patch V1.1.8
+		* Added in an Advanced Section to allow for a more fine-tuned experience.
+		* Added dynamic messaging.
+	</ChangeLog>
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
 	<ExternalLink Type="github" Url="https://github.com/DanielVNZ/WeatherPlus" />
 </Publish>

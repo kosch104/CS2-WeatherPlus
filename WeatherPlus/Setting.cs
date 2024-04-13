@@ -65,7 +65,7 @@ namespace WeatherPlus
         [SettingsUISearchHidden]
         [SettingsUIHidden]
         [SettingsUISection(kSection, kButtonGroup)]
-        public float CloudAmount { get; set; }
+        public float CloudAmount { get; set; } = 0;
         [SettingsUISearchHidden]
         [SettingsUIHidden]
         [SettingsUISection(kSection, kButtonGroup)]
@@ -77,7 +77,7 @@ namespace WeatherPlus
         [SettingsUISearchHidden]
         [SettingsUIHidden]
         [SettingsUISection(kSection, kButtonGroup)]
-        public float RainAmount { get; set; }
+        public int RainAmount { get; set; } = 0;
         [SettingsUISearchHidden]
         [SettingsUIHidden]
         [SettingsUISection(kSection, kButtonGroup)]
@@ -106,10 +106,6 @@ namespace WeatherPlus
 
                 { m_Setting.GetOptionLabelLocaleID(nameof(Setting.Button)), "Settings no longer used" },
                 { m_Setting.GetOptionDescLocaleID(nameof(Setting.Button)), $"Please refer to the briefcase in the top left of your screen in game and select Weather Plus" },
-
-
-
-
 
             };
             }

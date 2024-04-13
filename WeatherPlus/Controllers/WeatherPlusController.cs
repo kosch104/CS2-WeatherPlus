@@ -16,11 +16,10 @@ namespace WeatherPlus.UI
     public partial class WeatherPlusController : Controller<WeatherPlusModel>
     {
         public DanielsWeatherSystem _weatherSystem;
-
-
-
-        public float newValue = 48;
-
+        public int IntRain = 0;
+        public float FloatRain = 0f;
+        public int IntClouds = 0;
+        public float FloatClouds = 0f;
 
         public override WeatherPlusModel Configure( )
         {
@@ -30,6 +29,66 @@ namespace WeatherPlus.UI
           
             
             return new WeatherPlusModel( );
+        }
+
+        public void UpdateModelRain()
+        {
+            float temperature = _weatherSystem._climateSystem.temperature.overrideValue;
+            float cloudiness = _weatherSystem._climateSystem.cloudiness.overrideValue;
+            float precipitation = _weatherSystem._climateSystem.precipitation.overrideValue;
+
+            string temperatureMessage = "";
+            string precipitationMessage = "";
+            string cloudinessMessage = "";
+
+            // Determine temperature message
+            if (temperature < 0)
+            {
+                temperatureMessage = "Freezing";
+            }
+            else if (temperature > 30)
+            {
+                temperatureMessage = "Hot";
+            }
+            else if (temperature > 10)
+            {
+                temperatureMessage = "Warm";
+            }
+            else
+            {
+                temperatureMessage = "Chilly";
+            }
+
+            // Determine precipitation message
+            if (precipitation == 0)
+            {
+                precipitationMessage = "no precipitation";
+            }
+            else if (precipitation <= 0.500)
+            {
+                precipitationMessage = "raining";
+            }
+            else
+            {
+                precipitationMessage = "heavy rain";
+            }
+
+            // Determine cloudiness message
+            if (cloudiness == 0)
+            {
+                cloudinessMessage = "clear sky";
+            }
+            else if (cloudiness <= 0.500)
+            {
+                cloudinessMessage = "cloudy";
+            }
+            else
+            {
+                cloudinessMessage = "heavy clouds";
+            }
+
+            // Combine messages
+            Model.MessageAdvanced = $"{temperatureMessage}, {precipitationMessage}, and {cloudinessMessage}.";
         }
 
 
@@ -50,6 +109,11 @@ namespace WeatherPlus.UI
                 _weatherSystem._climateSystem.temperature.overrideState = false;
                 Mod.m_Setting.TemperatureOverride = false;
                 Mod.DebugLog("Temperature override state set successfully to false" + Model.TemperatureOverride);
+                if (Model.RainOverride == false && Model.CloudsOverride == false)
+                {
+                    Model.MessageAdvanced = "Using Default Settings";
+                    Model.MessageRain = "Using Default Settings";
+                }
             }
 
             else
@@ -57,7 +121,9 @@ namespace WeatherPlus.UI
                 Mod.DebugLog("Planetary or Weather System is null IN TEMPREATURE");
             }
 
+
             Update();
+            TriggerUpdate();
         }
 
         [OnTrigger]
@@ -76,9 +142,132 @@ namespace WeatherPlus.UI
             }
             else
             {
-                // Handle the case where _weatherSystem or _planetarySystem is null
                 Mod.DebugLog("Planetary or Weather System is null IN TEMPREATURE");
             }
+
+
+
+            UpdateModelRain();
+            Update();
+            TriggerUpdate();
+        }
+
+        [OnTrigger]
+        private void OnRainOverride()
+        {
+            Mod.DebugLog("OnRainOverride Ran Correctly.");
+
+            if (_weatherSystem._climateSystem != null && Model.RainOverride == true)
+            {
+                _weatherSystem._climateSystem.precipitation.overrideState = true;
+                Mod.m_Setting.RainOverride = true;
+                Mod.DebugLog("Rain override state set successfully" + Model.RainOverride);
+            }
+            else if (_weatherSystem._climateSystem != null && Model.RainOverride == false)
+            {
+                _weatherSystem._climateSystem.precipitation.overrideState = false;
+                Mod.m_Setting.RainOverride = false;
+                Mod.DebugLog("Rain override state set successfully to false" + Model.RainOverride);
+                if (Model.TemperatureOverride == false && Model.CloudsOverride == false)
+                {
+                    Model.MessageAdvanced = "Using Default Settings";
+                    Model.MessageRain = "Using Default Settings";
+                }
+            }
+
+            else
+            {
+                Mod.DebugLog("Planetary or Weather System is null IN Percipitation");
+            }
+
+
+            Update();
+            TriggerUpdate();
+        }
+
+        [OnTrigger]
+        private void onRainChanged()
+        {
+            Mod.DebugLog("onRainChanged Triggered: Initial RainAmount value: " + Model.RainAmount); // Log before 
+
+
+
+
+            if (_weatherSystem._climateSystem != null)
+            {
+                IntRain = Model.RainAmount;
+                FloatRain = IntRain / 100f;
+                Mod.DebugLog("Converted Rain: " + FloatRain);
+                _weatherSystem._climateSystem.precipitation.overrideValue = FloatRain;
+                Mod.m_Setting.RainAmount = Model.RainAmount;
+                Model.RainOverride = true;
+                Mod.DebugLog("Rain successfully set: Updated RainAmount value: " + Model.RainAmount); // Log after
+            }
+            else
+            {
+                Mod.DebugLog("Planetary or Weather System is null IN Precipitation");
+            }
+            UpdateModelRain();
+            Update();
+            TriggerUpdate();
+        }
+
+        [OnTrigger]
+        private void OnCloudsOverride()
+        {
+            Mod.DebugLog("OnCloudsOverride Ran Correctly.");
+
+            if (_weatherSystem._climateSystem != null && Model.CloudsOverride == true)
+            {
+                _weatherSystem._climateSystem.cloudiness.overrideState = true;
+                Mod.m_Setting.CloudsOverride = true;
+                Mod.DebugLog("Clouds override state set successfully" + Model.CloudsOverride);
+            }
+            else if (_weatherSystem._climateSystem != null && Model.CloudsOverride == false)
+            {
+                _weatherSystem._climateSystem.cloudiness.overrideState = false;
+                Mod.m_Setting.CloudsOverride = false;
+                Mod.DebugLog("Clouds override state set successfully to false" + Model.CloudsOverride);
+
+                if (Model.RainOverride == false && Model.TemperatureOverride == false)
+                {
+                    Model.MessageAdvanced = "Using Default Settings";
+                    Model.MessageRain = "Using Default Settings";
+                }
+            }
+
+            else
+            {
+                Mod.DebugLog("Planetary or Weather System is null IN Percipitation");
+            }
+
+
+            Update();
+            TriggerUpdate();
+        }
+
+        [OnTrigger]
+        private void onCloudsChanged()
+        {
+            Mod.DebugLog("onCloudsChanged Triggered: Initial CloudsAmount value: " + Model.CloudsAmount); // Log before 
+
+
+            if (_weatherSystem._climateSystem != null)
+            {
+                IntClouds = Model.CloudsAmount;
+                FloatClouds = IntClouds / 100f;
+                Mod.DebugLog("Converted Clouds: " + FloatClouds);
+                _weatherSystem._climateSystem.cloudiness.overrideValue = FloatClouds;
+                Mod.m_Setting.CloudAmount = Model.CloudsAmount;
+                Model.CloudsOverride = true;
+                Mod.DebugLog("Clouds successfully set: Updated RainAmount value: " + Model.CloudsAmount); // Log after
+            }
+            else
+            {
+                Mod.DebugLog("Planetary or Weather System is null IN Precipitation");
+            }
+
+            UpdateModelRain();
             Update();
             TriggerUpdate();
         }
@@ -86,26 +275,21 @@ namespace WeatherPlus.UI
         [OnTrigger]
         private void OnSetRain()
         {
-            // Amend the message in the model
             if (Model != null)
             {
                 Model.MessageRain = "Currently Raining";
             }
             else
             {
-                // Handle the case where Model is null
-                // Log or handle the error accordingly
                 Mod.DebugLog("Model is null");
-                return; // Exit the method early
+                return; 
             }
 
-            // Check if _weatherSystem and _planetarySystem are not null before accessing their members
             if (_weatherSystem._climateSystem != null)
             {
-                // Update the time in _planetarySystem
                 _weatherSystem._climateSystem.precipitation.overrideState = true;
                 _weatherSystem._climateSystem.precipitation.overrideValue = 0.998f;
-                Mod.m_Setting.RainAmount = 0.999f;
+                Mod.m_Setting.RainAmount = (int)0.999;
                 Mod.m_Setting.RainOverride = true;
 
                 _weatherSystem._climateSystem.cloudiness.overrideState = true;
@@ -120,11 +304,9 @@ namespace WeatherPlus.UI
             }
             else
             {
-                // Handle the case where _weatherSystem or _planetarySystem is null
                 Mod.DebugLog("Planetary or Weather System is null IN RAIN");
             }
 
-            // Trigger an update (assuming TriggerUpdate() is a valid method)
             TriggerUpdate();
         }
 
@@ -132,27 +314,24 @@ namespace WeatherPlus.UI
         
         private void OnSetSnow()
         {
-            // Amend the message in the model
             if (Model != null)
             {
                 Model.MessageRain = "Currently Snowing";
             }
             else
             {
-                // Handle the case where Model is null
-                // Log or handle the error accordingly
+
                 Mod.DebugLog("Model is null");
-                return; // Exit the method early
+                return; 
             }
 
-            // Check if _weatherSystem and _planetarySystem are not null before accessing their members
+
             if (_weatherSystem._climateSystem != null)
             {
-                // Update the time in _planetarySystem
                 
                 _weatherSystem._climateSystem.precipitation.overrideState = true;
                 _weatherSystem._climateSystem.precipitation.overrideValue = 0.998f;
-                Mod.m_Setting.RainAmount = 0.999f;
+                Mod.m_Setting.RainAmount = (int)0.999;
                 Mod.m_Setting.RainOverride = true;
                 _weatherSystem._climateSystem.cloudiness.overrideState = true;
                 _weatherSystem._climateSystem.cloudiness.overrideValue = 0.998f;
@@ -183,7 +362,7 @@ namespace WeatherPlus.UI
             {
 
                 Mod.DebugLog("Model is null");
-                return; // Exit the method early
+                return;
             }
 
 
@@ -198,7 +377,7 @@ namespace WeatherPlus.UI
                 _weatherSystem._climateSystem.cloudiness.overrideValue = 0.0f;
                 Mod.m_Setting.CloudAmount = 0.0f;
                 _weatherSystem._climateSystem.precipitation.overrideValue = 0.0f;
-                Mod.m_Setting.RainAmount = 0.0f;
+                Mod.m_Setting.RainAmount = (int)0.0;
                 _weatherSystem._climateSystem.temperature.overrideState = true;
                 Mod.m_Setting.TemperatureOverride = true;
                 _weatherSystem._climateSystem.temperature.overrideValue = 26.0f;
@@ -208,36 +387,31 @@ namespace WeatherPlus.UI
             }
             else
             {
-                // Handle the case where _weatherSystem or _planetarySystem is null
                 Mod.DebugLog("Planetary or Weather System is null");
             }
 
-            // Trigger an update (assuming TriggerUpdate() is a valid method)
             TriggerUpdate();
         }
 
         [OnTrigger]
         private void OnSetDefaults()
         {
-            // Amend the message in the model
             if (Model != null)
             {
                 Model.MessageRain = "Using Default Settings";
             }
             else
             {
-                // Handle the case where Model is null
-                // Log or handle the error accordingly
                 Mod.DebugLog("Model is null");
-                return; // Exit the method early
+                return;
             }
 
-            // Check if _weatherSystem and _planetarySystem are not null before accessing their members
+
             if (_weatherSystem._climateSystem != null)
             {
-                // Update the time in _planetarySystem
                 _weatherSystem._climateSystem.precipitation.overrideState = false;
                 Mod.m_Setting.RainOverride = false;
+                Model.RainOverride = false;
                 _weatherSystem._climateSystem.cloudiness.overrideState = false;
                 Mod.m_Setting.CloudsOverride = false;
                 _weatherSystem._climateSystem.temperature.overrideState = false;
@@ -252,11 +426,10 @@ namespace WeatherPlus.UI
             }
             else
             {
-                // Handle the case where _weatherSystem or _planetarySystem is null
+
                 Mod.DebugLog("Planetary or Weather System is null");
             }
 
-            // Trigger an update (assuming TriggerUpdate() is a valid method)
             TriggerUpdate();
         }
 
@@ -269,23 +442,19 @@ namespace WeatherPlus.UI
         [OnTrigger]
         private void OnSetNight()
         {
-            // Amend the message in the model
             if (Model != null)
             {
                 Model.Message = "Night Time";
             }
             else
             {
-                // Handle the case where Model is null
-                // Log or handle the error accordingly
+
                 Mod.DebugLog("Model is null");
-                return; // Exit the method early
+                return; 
             }
 
-            // Check if _weatherSystem and _planetarySystem are not null before accessing their members
             if (_weatherSystem != null && _weatherSystem._planetarySystem != null)
             {
-                // Update the time in _planetarySystem
                 _weatherSystem._planetarySystem.overrideTime = true;
                 _weatherSystem._planetarySystem.time = 0f;
                 Mod.m_Setting.OverrideTime = true;
@@ -294,68 +463,56 @@ namespace WeatherPlus.UI
             }
             else
             {
-                // Handle the case where _weatherSystem or _planetarySystem is null
                 Mod.DebugLog("Planetary or Weather System is null");
             }
 
-            // Trigger an update (assuming TriggerUpdate() is a valid method)
             TriggerUpdate();
         }
 
         [OnTrigger]
         private void OnSetDefault()
         {
-            // Amend the message in the model
             if (Model != null)
             {
                 Model.Message = "Using Default Settings";
             }
             else
             {
-                // Handle the case where Model is null
-                // Log or handle the error accordingly
+
                 Mod.DebugLog("Model is null");
-                return; // Exit the method early
+                return;
             }
 
-            // Check if _weatherSystem and _planetarySystem are not null before accessing their members
             if (_weatherSystem != null && _weatherSystem._planetarySystem != null)
             {
-                // Update the time in _planetarySystem
                 _weatherSystem._planetarySystem.overrideTime = false;
                 Mod.m_Setting.OverrideTime = false;
                 Mod.DebugLog("Night successfully set");
             }
             else
             {
-                // Handle the case where _weatherSystem or _planetarySystem is null
                 Mod.DebugLog("Planetary or Weather System is null");
             }
 
-            // Trigger an update (assuming TriggerUpdate() is a valid method)
             TriggerUpdate();
         }
 
         [OnTrigger]
         private void OnSetDay()
         {
-            // Amend the message in the model
             if (Model != null)
             {
                 Model.Message = "Day Time ";
             }
             else
             {
-                // Handle the case where Model is null
-                // Log or handle the error accordingly
+
                 Mod.DebugLog("Model is null");
-                return; // Exit the method early
+                return; 
             }
 
-            // Check if _weatherSystem and _planetarySystem are not null before accessing their members
             if (_weatherSystem != null && _weatherSystem._planetarySystem != null)
             {
-                // Update the time in _planetarySystem
                 _weatherSystem._planetarySystem.overrideTime = true;
                 _weatherSystem._planetarySystem.time = 12f;
                 Mod.m_Setting.OverrideTime = true;
@@ -364,11 +521,9 @@ namespace WeatherPlus.UI
             }
             else
             {
-                // Handle the case where _weatherSystem or _planetarySystem is null
                 Mod.DebugLog("Planetary or Weather System is null");
             }
 
-            // Trigger an update (assuming TriggerUpdate() is a valid method)
             TriggerUpdate();
         }
 

@@ -24,6 +24,12 @@ namespace WeatherPlus.Models
             set;
         } = "Using Default Settings";
 
+        public string MessageAdvanced
+        {
+            get;
+            set;
+        } = "Using Default Settings";
+
         public int Temperature
         {
             get;
@@ -35,5 +41,28 @@ namespace WeatherPlus.Models
             get;
             set;
         } = false;
+
+
+        public int RainAmount
+        {
+            get;
+            set;
+        }
+        public bool RainOverride
+        {
+            get;
+            set;
+        } = false;
+        public int CloudsAmount
+        {
+            get;
+            set;
+        }
+        public bool CloudsOverride
+        {
+            get;
+            set;
+        } = false;
+
     }
 }

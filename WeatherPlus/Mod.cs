@@ -31,11 +31,6 @@ namespace WeatherPlus
         public static Setting m_Setting;
         public ClimateSystem _climateSystem;
 
-        
-
-
-
-        //public DanielsWeatherSystem _weatherSystem;
         public void OnLoad(UpdateSystem updateSystem)
         {
             _harmony = new Harmony(HARMONY_ID);
@@ -43,12 +38,6 @@ namespace WeatherPlus
             _log.Info("Loaded WeatherPlus Mod");
             if (GameManager.instance.modManager.TryGetExecutableAsset(this, out var asset))
                 _log.Info($"Current mod asset at {asset.path}");
-
-           /* m_Setting = new Setting(this, _weatherSystem);
-            m_Setting.RegisterInOptionsUI();
-            GameManager.instance.localizationManager.AddSource("en-US", new LocaleEN(m_Setting));
-
-            AssetDatabase.global.LoadSettings(nameof(WeatherPlus), m_Setting, new Setting(this, _weatherSystem));*/
 
             if (_weatherSystem == null)
             {
@@ -71,10 +60,6 @@ namespace WeatherPlus
 
             World.DefaultGameObjectInjectionWorld.AddSystemManaged(_weatherSystem);
 
-            
-
-
-
             updateSystem.UpdateAt<WeatherPlusController>(SystemUpdatePhase.MainLoop);
             updateSystem.UpdateAt<WeatherPlusController>(SystemUpdatePhase.ApplyTool);
         }
@@ -82,7 +67,6 @@ namespace WeatherPlus
 
         public void OnDispose()
         {
-            // DO ANY CLEANUP HERE!
 
             _harmony?.UnpatchAll(HARMONY_ID);
             _log.Info("Unloaded WeatherPlus Mod");
@@ -125,7 +109,6 @@ namespace WeatherPlus
 
     public partial class DanielsWeatherSystem : GameSystemBase
     {
-        //public ClimateSystem _climateSystem;
         public PlanetarySystem _planetarySystem;
         public ClimateSystem _climateSystem;
         public Mod _mod;
@@ -140,7 +123,6 @@ namespace WeatherPlus
         protected override void OnCreate()
         {
             base.OnCreate();
-            //_climateSystem = World.GetExistingSystemManaged<ClimateSystem>();
         }
 
         protected override void OnGameLoadingComplete(Purpose purpose, GameMode mode)
@@ -155,7 +137,6 @@ namespace WeatherPlus
 
             if (_climateSystem == null && Mod.m_Setting != null && _planetarySystem == null)
             {
-                //_climateSystem = World.GetExistingSystemManaged<ClimateSystem>();
                 _climateSystem = World.GetExistingSystemManaged<ClimateSystem>();
                 Mod._log.Info("Climate System Found on Mod.cs - Test");
                 _planetarySystem = World.GetExistingSystemManaged<PlanetarySystem>();
