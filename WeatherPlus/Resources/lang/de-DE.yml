@@ -1,0 +1,15 @@
+lang:
+  WP_TimeOfDay: Tageszeit
+  WP_Night: Nacht
+  WP_Day: Tag
+  WP_SetTimeOfDay: Tageszeit festlegen
+  WP_Default: Standard
+  WP_Weather: Wetter
+  WP_Rain: Regen
+  WP_Snow: Schnee
+  WP_Sun: Sonne
+  WP_WeatherAdvanced: Wetter (Erweitert)
+  WP_ManualControl: Manuelle Steuerung
+  WP_SetTemperature: Temperatur festlegen
+  WP_SetRainSnowIntensity: Regen-/Schneestärke festlegen
+  WP_SetCloudsIntensity: Bewölkung festlegen

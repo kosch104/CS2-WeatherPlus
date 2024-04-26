@@ -14,8 +14,15 @@ const WeatherPlusContainer = ({ react, setupController }) => {
     const RainOverride = model.RainOverride;
     const CloudsOverride = model.CloudOverride;
     const CloudsAmount = model.CloudsAmount;
+    const Time = model.Time;
 
+   
+    
 
+    const onTimeChanged = (selected) => {
+        update("Time", selected);
+        trigger("OnSetTime");
+    };
     const onTemperatureChanged = (selected) => {
         update("Temperature", selected);
         trigger("OnSetTemperature");
@@ -37,6 +44,9 @@ const WeatherPlusContainer = ({ react, setupController }) => {
     const toSliderValueClouds = () => {
         return CloudsAmount;
     };
+    const toSliderValueTime = () => {
+        return Time;
+    };
 
     const onTemperatureOverride = (value) => {
         update("TemperatureOverride", value);
@@ -52,51 +62,60 @@ const WeatherPlusContainer = ({ react, setupController }) => {
         trigger("OnCloudsOverride");
     };
 
+
+
     const tabs = [
         {
             name: "Time of Day",
-            label: <div className="tab-label"> Time of Day
+            label: <div className="tab-label"> {engine.translate("WP_TimeOfDay")}
                 <Icon icon="clock" fa />
             </div>,
             content:
                 <div>
                     <h3 className="mb-2">{model.Message}</h3>
-                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetNight")}><Icon icon="moon" fa />&nbsp;Night</Button>
+                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetNight")}><Icon icon="moon" fa />&nbsp;{engine.translate("WP_Night")}</Button>
                     <span> </span>
-                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetDay")}><Icon icon="sun" fa />&nbsp;Day</Button>
+                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetDay")}><Icon icon="sun" fa />&nbsp;{engine.translate("WP_Day")}</Button>
                     <span> </span>
-                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetDefault")}><Icon icon="hand" fa />&nbsp;Default</Button>
+                    <h4>{engine.translate("WP_SetTimeOfDay")}</h4>
+                    <span> </span>
+                    <Slider
+                        value={toSliderValueTime}
+                        onValueChanged={(value) => onTimeChanged(value)}
+                    />
+                    <span> </span>
+                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetDefault")}><Icon icon="hand" fa />&nbsp;{engine.translate("WP_Default")}</Button>
                 </div>
         },
         {
             name: "Weather",
-            label: <div className="tab-label"> Weather
+            label: <div className="tab-label"> {engine.translate("WP_Weather")}
                 <Icon icon="sun" fa />
             </div>,
             content:
                 <div>
                     <h3 className="mb-2">{model.MessageRain}</h3>
-                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetRain")}><Icon icon="gem" fa />&nbsp;Rain</Button>
+                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetRain")}><Icon icon="gem" fa />&nbsp;{engine.translate("WP_Rain")}</Button>
                     <span> </span>
-                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetSnow")}><Icon icon="snowflake" fa />&nbsp;Snow</Button>
+                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetSnow")}><Icon icon="snowflake" fa />&nbsp;{engine.translate("WP_Snow")}</Button>
                     <span> </span>
-                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetSun")}><Icon icon="sun" fa />&nbsp;Sun</Button>
+                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetSun")}><Icon icon="sun" fa />&nbsp;{engine.translate("WP_Sun")}</Button>
                     <span> </span>
-                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetDefaults")}><Icon icon="hand" fa />&nbsp;Default</Button>
+                    <Button style={{ textAlign: 'center' }} color="primary" onClick={() => trigger("OnSetDefaults")}><Icon icon="hand" fa />&nbsp;{engine.translate("WP_Default")}</Button>
                 </div>
         },
         {
             name: "WeatherAdv",
-            label: <div className="tab-label"> Weather (Advanced)
+            label: <div className="tab-label"> {engine.translate("WP_WeatherAdvanced")}
                 <Icon icon="sun" fa />
             </div>,
             content:
                 <div>
                     <h3 className="mb-2">{model.MessageAdvanced}</h3>
                     <span> </span>
-                    <h2 className="mb-2">Manual Control</h2>
+                    <h2 className="mb-2">{engine.translate("WP_ManualControl")}</h2>
                     <span> </span>
-                    <h4>Set Temperature</h4>
+                    <h4>{engine.translate("WP_SetTemperature")}</h4>
                     <span> </span>
                     <FormCheckBox checked={model.TemperatureOverride} onToggle={value => onTemperatureOverride(value)} />
                     <span> </span>
@@ -105,7 +124,7 @@ const WeatherPlusContainer = ({ react, setupController }) => {
                         onValueChanged={(value) => onTemperatureChanged(value - 50)}
                     />
                     <span> </span>
-                    <h4>Set Rain/Snow Intensity</h4>
+                    <h4>{engine.translate("WP_SetRainSnowIntensity")}</h4>
                     <span> </span>
                     <FormCheckBox checked={model.RainOverride} onToggle={value => OnRainOverride(value)} />
                     <span> </span>
@@ -114,7 +133,7 @@ const WeatherPlusContainer = ({ react, setupController }) => {
                         onValueChanged={(value) => onRainChanged(value)}
                     />
                     <span> </span>
-                    <h4>Set Clouds Intensity</h4>
+                    <h4>{engine.translate("WP_SetCloudsIntensity")}</h4>
                     <span> </span>
                     <FormCheckBox checked={model.CloudsOverride} onToggle={value => OnCloudsOverride(value)} />
                     <span> </span>

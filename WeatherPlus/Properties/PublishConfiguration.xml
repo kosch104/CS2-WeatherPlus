@@ -4,28 +4,33 @@
 	<!--Name of the mod to display to players-->
 	<DisplayName Value="Weather Plus" />
 	<!--Short description of the mod-->
-	<ShortDescription Value="Now with Gooee support! Easy way to control the weather and time of day" />
+	<ShortDescription Value="Easy way to control the weather and time of day (Presets and Sliders)" />
 	<!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
 	<!--LongDescription Value="This is a long description" /-->
 	<LongDescription>
-		## NOTE: IF YOU ARE UPDATING FROM AN OLDER VERSION, ENSURE YOU HAVE GOOEE INSTALLED!!
-		
-		## Description:
+
+		Recently added localisation for: zh-HANS, de-DE, fr-FR, ja-JP
+		Please improve these for me! join the Cities to modding discord server https://discord.gg/tT2aHHM3PX, youll find the files in the WeatherPlus mod section. 
+
+		Description:
 		Easy control over the weather and time. Set a custom temperature with a bit of rain to create a humid climate, want minus 50 degree winters? no problem! Scorching hot summer? why not!
 
-		## Credits:
-		Credit to **Jacob** on discord for the name idea of "Weather+"
-		Credit to **NearDivinity** on discord for the mod idea
-		Credit to **89pleasure**, **optimus-code** for their help and support as well as for **Gooee**.
+		Credits:
+		Credit to Jacob on discord for the name idea of "Weather+"
+		Credit to NearDivinity on discord for the mod idea
+		Credit to 89pleasure, optimus-code for their help and support as well as for Gooee.
+		Credit to TwotoolusFly_Lsh.st for the Korean translation.
 
-		## NOTES:
+		NOTES:
 		Unable to get icon for Rain working, using a Diamond as a placeholder for now.
-		**SETTINGS IS NO LONGERR REQUIRED! Click the briefcase on the top left while in game then "Weather Plus"**
+		When loading the game you will see 1/2 a second worth of Rain/Snow (depending on your temperature and Clouds (If you have the sliders set to 0 or the "Sun" preset selected. 
+
 	</LongDescription>
 	<!--Thumbnail-->
 	<Thumbnail Value="Properties/Thumbnail.jpg" />
 	<!--Screenshot, can be set multiple times-->
 	<Screenshot Value="Properties/Image0.jpg" />
+	<Screenshot Value="Properties/Image1.png" />
 	<Screenshot Value="Properties/Image2.png" />
 	<Screenshot Value="Properties/Image3.png" />
 	<!--Tag, can be set multiple times-->
@@ -33,15 +38,15 @@
 	<!--Link to the forum post where the mod can be discussed-->
 	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/weather.1658460/" />
 	<!--Version of the mod-->
-	<ModVersion Value="1.1.8" />
+	<ModVersion Value="1.2.3" />
 	<!--Recommended version of the base game to use the mod-->
 	<GameVersion Value="1.1.*" />
 	<!--Dependency for the mod, can be set multiple times-->
 	<Dependency Id="77225" />
 	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
-	<ChangeLog># Patch V1.1.8
-		* Added in an Advanced Section to allow for a more fine-tuned experience.
-		* Added dynamic messaging.
+	<ChangeLog># Patch V1.2.3
+		* Corrected localisation for: ko-KR and zh-HANS.
+		* Actually fixed loading settings (hopefully D:) NOTE: You will see 1/2 a second worth of Rain/Clouds before settings load. 
 	</ChangeLog>
 	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
 	<ExternalLink Type="github" Url="https://github.com/DanielVNZ/WeatherPlus" />

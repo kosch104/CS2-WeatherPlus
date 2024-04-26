@@ -40,7 +40,7 @@ namespace WeatherPlus.Models
         {
             get;
             set;
-        } = false;
+        } 
 
 
         public int RainAmount
@@ -52,17 +52,30 @@ namespace WeatherPlus.Models
         {
             get;
             set;
-        } = false;
+        } 
+
         public int CloudsAmount
         {
             get;
             set;
-        }
+        } 
         public bool CloudsOverride
         {
             get;
             set;
-        } = false;
+        } 
+
+        public int Time
+        {
+            get;
+            set;
+        }
+
+        public bool TimeOverride
+        {
+            get;
+            set;
+        } 
 
     }
 }

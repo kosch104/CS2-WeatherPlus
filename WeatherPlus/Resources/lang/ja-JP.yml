@@ -1,0 +1,15 @@
+﻿lang:
+  WP_TimeOfDay: 時間帯
+  WP_Night: 夜
+  WP_Day: 昼
+  WP_SetTimeOfDay: 時間帯の設定
+  WP_Default: デフォルト
+  WP_Weather: 天気
+  WP_Rain: 雨
+  WP_Snow: 雪
+  WP_Sun: 太陽
+  WP_WeatherAdvanced: 天気（高度な設定）
+  WP_ManualControl: 手動制御
+  WP_SetTemperature: 温度の設定
+  WP_SetRainSnowIntensity: 雨/雪の強度の設定
+  WP_SetCloudsIntensity: 雲の量の設定

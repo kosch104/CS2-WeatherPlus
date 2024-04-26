@@ -1,0 +1,15 @@
+﻿lang:
+  WP_TimeOfDay: Moment de la journée
+  WP_Night: Nuit
+  WP_Day: Jour
+  WP_SetTimeOfDay: Définir le moment de la journée
+  WP_Default: Par défaut
+  WP_Weather: Météo
+  WP_Rain: Pluie
+  WP_Snow: Neige
+  WP_Sun: Soleil
+  WP_WeatherAdvanced: Météo (Avancé)
+  WP_ManualControl: Contrôle Manuel
+  WP_SetTemperature: Définir la Température
+  WP_SetRainSnowIntensity: Définir l'Intensité de la Pluie/Neige
+  WP_SetCloudsIntensity: Définir l'Intensité des Nuages

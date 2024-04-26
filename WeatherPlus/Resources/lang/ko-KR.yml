@@ -1,0 +1,15 @@
+﻿lang:
+  WP_TimeOfDay: 시간
+  WP_Night: 밤
+  WP_Day: 낮
+  WP_SetTimeOfDay: 시간 설정
+  WP_Default: 기본값
+  WP_Weather: 날씨
+  WP_Rain: 비
+  WP_Snow: 눈
+  WP_Sun: 맑음
+  WP_WeatherAdvanced: 날씨 (고급)
+  WP_ManualControl: 수동 제어
+  WP_SetTemperature: 기온 설정
+  WP_SetRainSnowIntensity: 비/눈 강도 설정
+  WP_SetCloudsIntensity: 구름 강도 설정

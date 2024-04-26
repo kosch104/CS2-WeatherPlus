@@ -10,6 +10,14 @@ using Microsoft.CSharp;
 using Colossal.Logging;
 using Gooee;
 using Gooee.Helpers;
+using Unity.Mathematics;
+using Game.Prefabs.Climate;
+using UnityEngine;
+using static Game.Prefabs.Climate.ClimatePrefab;
+using System.Reflection;
+using Colossal.UI.Binding;
+using Game.SceneFlow;
+using System.Linq;
 
 namespace WeatherPlus.UI
 {
@@ -21,15 +29,35 @@ namespace WeatherPlus.UI
         public int IntClouds = 0;
         public float FloatClouds = 0f;
 
-        public override WeatherPlusModel Configure( )
+
+        public override WeatherPlusModel Configure()
         {
             _weatherSystem = World.GetOrCreateSystemManaged<DanielsWeatherSystem>( );
+
+
             Mod.DebugLog("Weather System found on Controller");
 
-          
+
+
             
+
+
+
             return new WeatherPlusModel( );
         }
+
+        public void UpdateSettings()
+        {
+            Mod.m_Setting.OverrideTime = Model.TimeOverride;
+            Mod.m_Setting.Time = Model.Time;
+            Mod.m_Setting.CloudAmount = Model.CloudsAmount;
+            Mod.m_Setting.CloudsOverride = Model.CloudsOverride;
+            Mod.m_Setting.RainOverride = Model.RainOverride;
+            Mod.m_Setting.RainAmount = Model.RainAmount;
+            Mod.m_Setting.Temperature = Model.Temperature;
+            Mod.m_Setting.TemperatureOverride = Model.TemperatureOverride;
+        }
+
 
         public void UpdateModelRain()
         {
@@ -89,6 +117,7 @@ namespace WeatherPlus.UI
 
             // Combine messages
             Model.MessageAdvanced = $"{temperatureMessage}, {precipitationMessage}, and {cloudinessMessage}.";
+            
         }
 
 
@@ -124,6 +153,7 @@ namespace WeatherPlus.UI
 
             Update();
             TriggerUpdate();
+            UpdateSettings();
         }
 
         [OnTrigger]
@@ -150,6 +180,7 @@ namespace WeatherPlus.UI
             UpdateModelRain();
             Update();
             TriggerUpdate();
+            UpdateSettings();
         }
 
         [OnTrigger]
@@ -183,6 +214,7 @@ namespace WeatherPlus.UI
 
             Update();
             TriggerUpdate();
+            UpdateSettings();
         }
 
         [OnTrigger]
@@ -199,8 +231,9 @@ namespace WeatherPlus.UI
                 FloatRain = IntRain / 100f;
                 Mod.DebugLog("Converted Rain: " + FloatRain);
                 _weatherSystem._climateSystem.precipitation.overrideValue = FloatRain;
-                Mod.m_Setting.RainAmount = Model.RainAmount;
+                Mod.m_Setting.RainAmount = FloatRain;
                 Model.RainOverride = true;
+                Mod.m_Setting.RainOverride = true;
                 Mod.DebugLog("Rain successfully set: Updated RainAmount value: " + Model.RainAmount); // Log after
             }
             else
@@ -210,6 +243,7 @@ namespace WeatherPlus.UI
             UpdateModelRain();
             Update();
             TriggerUpdate();
+            UpdateSettings();
         }
 
         [OnTrigger]
@@ -244,6 +278,7 @@ namespace WeatherPlus.UI
 
             Update();
             TriggerUpdate();
+            UpdateSettings();
         }
 
         [OnTrigger]
@@ -258,8 +293,9 @@ namespace WeatherPlus.UI
                 FloatClouds = IntClouds / 100f;
                 Mod.DebugLog("Converted Clouds: " + FloatClouds);
                 _weatherSystem._climateSystem.cloudiness.overrideValue = FloatClouds;
-                Mod.m_Setting.CloudAmount = Model.CloudsAmount;
+                Mod.m_Setting.CloudAmount = FloatClouds;
                 Model.CloudsOverride = true;
+                OnCloudsOverride();
                 Mod.DebugLog("Clouds successfully set: Updated RainAmount value: " + Model.CloudsAmount); // Log after
             }
             else
@@ -270,6 +306,7 @@ namespace WeatherPlus.UI
             UpdateModelRain();
             Update();
             TriggerUpdate();
+            UpdateSettings();
         }
 
         [OnTrigger]
@@ -291,11 +328,15 @@ namespace WeatherPlus.UI
                 _weatherSystem._climateSystem.precipitation.overrideValue = 0.998f;
                 Mod.m_Setting.RainAmount = (int)0.999;
                 Mod.m_Setting.RainOverride = true;
+                Model.RainOverride = true;
+                Model.RainAmount = (int)0.999;
 
                 _weatherSystem._climateSystem.cloudiness.overrideState = true;
                 _weatherSystem._climateSystem.cloudiness.overrideValue = 0.998f;
                 Mod.m_Setting.CloudAmount = 0.999f;
                 Mod.m_Setting.CloudsOverride = true;
+                Model.CloudsOverride = true;
+                Model.CloudsAmount = (int)0.999;
                 _weatherSystem._climateSystem.temperature.overrideState = true;
                 _weatherSystem._climateSystem.temperature.overrideValue = 10.0f;
                 Mod.m_Setting.Temperature = 10;
@@ -308,6 +349,7 @@ namespace WeatherPlus.UI
             }
 
             TriggerUpdate();
+            UpdateSettings();
         }
 
         [OnTrigger]
@@ -333,10 +375,14 @@ namespace WeatherPlus.UI
                 _weatherSystem._climateSystem.precipitation.overrideValue = 0.998f;
                 Mod.m_Setting.RainAmount = (int)0.999;
                 Mod.m_Setting.RainOverride = true;
+                Model.RainAmount = (int)0.999;
+                Model.RainOverride = true;
                 _weatherSystem._climateSystem.cloudiness.overrideState = true;
                 _weatherSystem._climateSystem.cloudiness.overrideValue = 0.998f;
                 Mod.m_Setting.CloudAmount = 0.999f;
                 Mod.m_Setting.CloudsOverride = true;
+                Model.CloudsAmount = (int)0.999;
+                Model.CloudsOverride = true;
                 _weatherSystem._climateSystem.temperature.overrideState = true;
                 _weatherSystem._climateSystem.temperature.overrideValue = -10.0f;
                 Mod.m_Setting.Temperature = -10;
@@ -349,7 +395,10 @@ namespace WeatherPlus.UI
             }
 
             TriggerUpdate();
+            UpdateSettings();
         }
+
+      
 
         [OnTrigger]
         private void OnSetSun()
@@ -372,12 +421,16 @@ namespace WeatherPlus.UI
                 _weatherSystem._climateSystem.precipitation.overrideState = true;
  
                 Mod.m_Setting.RainOverride = true;
+                Model.RainOverride = true;
                 _weatherSystem._climateSystem.cloudiness.overrideState = true;
                 Mod.m_Setting.CloudsOverride = true;
+                Model.CloudsOverride = true;
                 _weatherSystem._climateSystem.cloudiness.overrideValue = 0.0f;
                 Mod.m_Setting.CloudAmount = 0.0f;
+                Model.CloudsAmount = 0;
                 _weatherSystem._climateSystem.precipitation.overrideValue = 0.0f;
                 Mod.m_Setting.RainAmount = (int)0.0;
+                Model.RainAmount = 0;
                 _weatherSystem._climateSystem.temperature.overrideState = true;
                 Mod.m_Setting.TemperatureOverride = true;
                 _weatherSystem._climateSystem.temperature.overrideValue = 26.0f;
@@ -391,6 +444,7 @@ namespace WeatherPlus.UI
             }
 
             TriggerUpdate();
+            UpdateSettings();
         }
 
         [OnTrigger]
@@ -431,13 +485,8 @@ namespace WeatherPlus.UI
             }
 
             TriggerUpdate();
+            UpdateSettings();
         }
-
-
-
-
-
-
 
         [OnTrigger]
         private void OnSetNight()
@@ -467,6 +516,7 @@ namespace WeatherPlus.UI
             }
 
             TriggerUpdate();
+            UpdateSettings();
         }
 
         [OnTrigger]
@@ -495,6 +545,7 @@ namespace WeatherPlus.UI
             }
 
             TriggerUpdate();
+            UpdateSettings();
         }
 
         [OnTrigger]
@@ -515,6 +566,7 @@ namespace WeatherPlus.UI
             {
                 _weatherSystem._planetarySystem.overrideTime = true;
                 _weatherSystem._planetarySystem.time = 12f;
+                Model.TimeOverride = true;
                 Mod.m_Setting.OverrideTime = true;
                 Mod.m_Setting.Time = 12f;
                 Mod.DebugLog("Night successfully set");
@@ -525,6 +577,39 @@ namespace WeatherPlus.UI
             }
 
             TriggerUpdate();
+            UpdateSettings();
+        }
+
+        [OnTrigger]
+        private void OnSetTime()
+        {
+            if (Model != null)
+            {
+                Model.Message = "Custom Time";
+            }
+            else
+            {
+
+                Mod.DebugLog("Model is null");
+                return;
+            }
+            float oldvalue = Model.Time;
+            float newvalue = ConvertToNewRange(oldvalue, 0, 24);
+            if (_weatherSystem != null && _weatherSystem._planetarySystem != null)
+            {
+                _weatherSystem._planetarySystem.overrideTime = true;
+                _weatherSystem._planetarySystem.time = newvalue;
+                Mod.m_Setting.OverrideTime = true;
+                Mod.m_Setting.Time = Model.Time;
+                Mod.DebugLog("Custom Time Set Successfully");
+            }
+            else
+            {
+                Mod.DebugLog("Planetary or Weather System is null");
+            }
+
+            TriggerUpdate();
+            UpdateSettings();
         }
 
         [OnTrigger]
@@ -532,6 +617,14 @@ namespace WeatherPlus.UI
         {
             Model.IsVisible = true;
             TriggerUpdate( );
+        }
+
+        public float ConvertToNewRange(float value, float newMin, float newMax)
+        {
+            // Calculate the proportionate value in the new range
+            float newValue = (value / 100f) * (newMax - newMin) + newMin;
+
+            return newValue;
         }
     }
 }

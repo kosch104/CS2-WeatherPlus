@@ -36,16 +36,29 @@
 	<Import Project="$([System.Environment]::GetEnvironmentVariable('CSII_TOOLPATH', 'EnvironmentVariableTarget.User'))\Mod.targets" />
 
 	<ItemGroup>
+		<None Remove="Resources\lang\ko-KR.yml" />
 		<None Remove="Resources\ui.js" />
-	</ItemGroup>
+		<None Remove="Resources\lang\ja-JP.yml" />
+		<None Remove="Resources\lang\fr-FR.yml" />
+		<None Remove="Resources\lang\en-US.yml" />
+		<None Remove="Resources\lang\zh-HANS.yml" />
+		<None Remove="Resources\lang\de-DE.yml" />
+		
+    </ItemGroup>
 
 	<ItemGroup>
+		<EmbeddedResource Include="Resources\lang\ja-JP.yml" />
+		<EmbeddedResource Include="Resources\lang\fr-FR.yml" />
+		<EmbeddedResource Include="Resources\lang\ko-KR.yml" />
 		<EmbeddedResource Include="Resources\ui.js" />
+		<EmbeddedResource Include="Resources\lang\en-US.yml" />
+		<EmbeddedResource Include="Resources\lang\zh-HANS.yml" />
+		<EmbeddedResource Include="Resources\lang\de-DE.yml" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<Reference Include="Gooee">
-			<HintPath>$(PDXMods_Location)\77225_8\Gooee.dll</HintPath>
+			<HintPath>$(PDXMods_Location)\77225_9\Gooee.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
 		<Reference Include="Game">
@@ -144,6 +157,10 @@
 
 	<ItemGroup>
 		<PackageReference Include="Lib.Harmony" Version="2.2.2" ExcludeAssets="runtime" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Configuration\" />
 	</ItemGroup>
 
 </Project>

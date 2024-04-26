@@ -40,6 +40,23 @@ namespace WeatherPlus
             _weatherSystem = weatherSystem;
             
 
+            /*if (Time == 0)
+            {
+                Time = 1;
+            }
+            if (CloudAmount == 0)
+            {
+                CloudAmount = 1;
+            }
+            if (RainAmount == 0) 
+            { 
+                RainAmount = 1;
+            }
+            if (Temperature == 0)
+            {
+                Temperature = 1;
+            }*/
+            
             
         }
 
@@ -47,6 +64,14 @@ namespace WeatherPlus
         public override void SetDefaults()
         {
             //throw new System.NotImplementedException();
+            Time = 1;
+            CloudAmount = 1;
+            Temperature = 1;
+            RainAmount = 1;
+            OverrideTime = false;
+            CloudsOverride = false;
+            RainOverride = false;
+            TemperatureOverride = false;
 
         }
 
@@ -57,27 +82,27 @@ namespace WeatherPlus
         [SettingsUISearchHidden]
         [SettingsUIHidden]
         [SettingsUISection(kSection, kButtonGroup)]
-        public bool OverrideTime { get; set; }
+        public bool OverrideTime { get; set; } 
         [SettingsUISearchHidden]
         [SettingsUIHidden]
         [SettingsUISection(kSection, kButtonGroup)]
-        public float Time { get; set; } = 12; //default-required else null
+        public float Time { get; set; } 
         [SettingsUISearchHidden]
         [SettingsUIHidden]
         [SettingsUISection(kSection, kButtonGroup)]
-        public float CloudAmount { get; set; } = 0;
+        public float CloudAmount { get; set; } 
         [SettingsUISearchHidden]
         [SettingsUIHidden]
         [SettingsUISection(kSection, kButtonGroup)]
-        public bool CloudsOverride { get; set; }
+        public bool CloudsOverride { get; set; } 
         [SettingsUISearchHidden]
         [SettingsUIHidden]
         [SettingsUISection(kSection, kButtonGroup)]
-        public bool RainOverride { get; set; }
+        public bool RainOverride { get; set; } 
         [SettingsUISearchHidden]
         [SettingsUIHidden]
         [SettingsUISection(kSection, kButtonGroup)]
-        public int RainAmount { get; set; } = 0;
+        public float RainAmount { get; set; } 
         [SettingsUISearchHidden]
         [SettingsUIHidden]
         [SettingsUISection(kSection, kButtonGroup)]
@@ -85,7 +110,10 @@ namespace WeatherPlus
         [SettingsUISearchHidden]
         [SettingsUIHidden]
         [SettingsUISection(kSection, kButtonGroup)]
-        public int Temperature { get; set; } = 26;
+        public int Temperature { get; set; } 
+
+
+       
 
 
         public class LocaleEN : IDictionarySource
