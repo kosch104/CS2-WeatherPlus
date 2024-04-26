@@ -1,3 +1,5 @@
+## Mod Link: https://mods.paradoxplaza.com/mods/77640/Windows
+
 ## Recently added localization for: zh-HANS, de-DE, fr-FR, ja-JP, ko-KR.
 
 Please improve these for me! join the Cities 2 Modding discord server https://discord.gg/tT2aHHM3PX, you'll find the files in the Weather Plus mod section.
