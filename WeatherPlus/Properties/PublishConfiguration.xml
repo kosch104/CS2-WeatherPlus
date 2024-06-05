@@ -1,40 +1,40 @@
 ﻿<Publish>
-	<!--Id must be set in order to update existed mod. it is not required for publishing mod for the first time-->
-	<ModId Value="77640" />
-	<!--Name of the mod to display to players-->
-	<DisplayName Value="Weather Plus" />
-	<!--Short description of the mod-->
-	<ShortDescription Value="Easy way to control the weather and time of day (Presets and Sliders)" />
-	<!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
-	<!--LongDescription Value="This is a long description" /-->
-	<LongDescription>
+    <!--Id must be set in order to update existed mod. it is not required for publishing mod for the first time-->
+    <ModId Value=""/>
+    <!--Name of the mod to display to players-->
+    <DisplayName Value="Weather Plus (new version)"/>
+    <!--Short description of the mod-->
+    <ShortDescription Value="Easy way to control the weather and time of day (Presets and Sliders)"/>
+    <!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
+    <!--LongDescription Value="This is a long description" /-->
+    <LongDescription>
 
-		To Complete
+        To Complete
 
-	</LongDescription>
-	<!--Thumbnail-->
-	<Thumbnail Value="Properties/Thumbnail.png" />
-	<!--Screenshot, can be set multiple times-->
-	<Screenshot Value="Properties/Image0.png" />
+    </LongDescription>
+    <!--Thumbnail-->
+    <Thumbnail Value="Properties/Thumbnail.png"/>
+    <!--Screenshot, can be set multiple times-->
+    <Screenshot Value="Properties/Image0.png"/>
 
-	<!--Tag, can be set multiple times-->
-	<Tag Value="Code Mod" />
-	<!--Link to the forum post where the mod can be discussed-->
-	<ForumLink Value="https://forum.paradoxplaza.com/forum/threads/weather.1658460/" />
-	<!--Version of the mod-->
-	<ModVersion Value="2.0.0" />
-	<!--Recommended version of the base game to use the mod-->
-	<GameVersion Value="1.1.*" />
-	<!--Dependency for the mod, can be set multiple times-->
-	<Dependency Id="" />
-	<!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
-	<ChangeLog>
-		# Patch V2.0.0
-		* Removed Gooee dependancy.
-		* Migrated settings to game settings.
-		* Fixed issue resulting in settings not saving.
-		* Localizations temporarly removed. Working on this currently.
-	</ChangeLog>
-	<!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
-	<ExternalLink Type="github" Url="https://github.com/DanielVNZ/WeatherPlus" />
+    <!--Tag, can be set multiple times-->
+    <Tag Value="Code Mod"/>
+    <!--Link to the forum post where the mod can be discussed-->
+    <ForumLink Value="https://forum.paradoxplaza.com/forum/threads/weather.1658460/"/>
+    <!--Version of the mod-->
+    <ModVersion Value="2.0.0"/>
+    <!--Recommended version of the base game to use the mod-->
+    <GameVersion Value="1.1.*"/>
+    <!--Dependency for the mod, can be set multiple times-->
+    <Dependency Id=""/>
+    <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
+    <ChangeLog>
+        # Patch V2.0.0
+        * Removed Gooee dependancy.
+        * Migrated settings to game settings.
+        * Fixed issue resulting in settings not saving.
+        * Localizations temporarly removed. Working on this currently.
+    </ChangeLog>
+    <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
+    <ExternalLink Type="github" Url="https://github.com/DanielVNZ/WeatherPlus"/>
 </Publish>
