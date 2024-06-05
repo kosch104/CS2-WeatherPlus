@@ -36,37 +36,25 @@ public class Setting : ModSetting
     [SettingsUISection(kSectionPresets, kButtonGroupPresets)]
     public bool TimeSixAM
     {
-        set
-        {
-            WeatherPlusSystem.Instance.UpdateTimeOfDay(true, 5f);
-        }
+        set => CustomTime = 6f;
     }
 
     [SettingsUISection(kSectionPresets, kButtonGroupPresets)]
     public bool TimeSevenAM
     {
-        set
-        {
-            WeatherPlusSystem.Instance.UpdateTimeOfDay(true, 6f);
-        }
+        set => CustomTime = 7f;
     }
 
     [SettingsUISection(kSectionPresets, kButtonGroupPresets)]
     public bool Day
     {
-        set
-        {
-            WeatherPlusSystem.Instance.UpdateTimeOfDay(true, 13f);
-        }
+        set => CustomTime = 13f;
     }
 
     [SettingsUISection(kSectionPresets, kButtonGroupPresets)]
     public bool Night
     {
-        set
-        {
-            WeatherPlusSystem.Instance.UpdateTimeOfDay(true, 22f);
-        }
+        set => CustomTime = 22f;
     }
 
 

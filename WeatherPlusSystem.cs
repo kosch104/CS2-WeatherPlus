@@ -12,9 +12,6 @@ public partial class WeatherPlusSystem : GameSystemBase
     public Mod _mod;
     public PlanetarySystem _planetarySystem;
     public bool isInitialized;
-    public float tempCloud;
-    public float tempPrecip;
-    public float tempTemp;
 
 
     public WeatherPlusSystem(Mod mod)
