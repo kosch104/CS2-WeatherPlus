@@ -29,6 +29,8 @@
 
         <LocalMods_Location>$(USERPROFILE)\AppData\LocalLow\Colossal Order\Cities Skylines II\Mods</LocalMods_Location>
         <PDXMods_Location>$(USERPROFILE)\AppData\LocalLow\Colossal Order\Cities Skylines II\.cache\Mods\mods_subscribed\</PDXMods_Location>
+        <AssemblyVersion>1.0.0</AssemblyVersion>
+        <FileVersion>1.0.0</FileVersion>
     </PropertyGroup>
 
     <!--Imports must be after PropertyGroup block-->

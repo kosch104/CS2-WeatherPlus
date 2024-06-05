@@ -19,12 +19,8 @@ public class Setting : ModSetting
     public const string kDropdownGroup = "Dropdown";
     public const string kSliderGroup = "Slider";
 
-    private readonly Mod _mod;
-
-
     public Setting(IMod mod) : base(mod)
     {
-        _mod = (Mod)mod;
         Mod.log.Info("Setting initialized");
 
 
@@ -34,6 +30,7 @@ public class Setting : ModSetting
 
     //Page1 - Presets
 
+    [SettingsUIHidden]
     public bool HiddenSetting { get; set; }
 
     [SettingsUISection(kSectionPresets, kButtonGroupPresets)]
@@ -155,9 +152,9 @@ public class LocaleEN : IDictionarySource
             },
 
 
-            { _setting.GetOptionLabelLocaleID(nameof(Setting.TimeSixAM)), "5:00AM" },
+            { _setting.GetOptionLabelLocaleID(nameof(Setting.TimeSixAM)), "6:00AM" },
             { _setting.GetOptionDescLocaleID(nameof(Setting.TimeSixAM)), "Sets the time to 6:00AM" },
-            { _setting.GetOptionLabelLocaleID(nameof(Setting.TimeSevenAM)), "6:00AM" },
+            { _setting.GetOptionLabelLocaleID(nameof(Setting.TimeSevenAM)), "7:00AM" },
             { _setting.GetOptionDescLocaleID(nameof(Setting.TimeSevenAM)), "Sets the time to 7:00AM" },
 
 

@@ -8,9 +8,23 @@
     <!--Long description of the mod. Single line or multi line. Supports minimal markdown subset-->
     <!--LongDescription Value="This is a long description" /-->
     <LongDescription>
+## Weather Plus
+Easy control over the weather and time. Set a custom temperature with a bit of rain to create a humid climate, want minus 50 degree winters? no problem! Scorching hot summer? why not!
 
-        To Complete
+Please note that only the visual time is changed, the actual simulation is not affected.
 
+## Features
+- Set Custom Temperature
+- Set Custom Precipitation
+- Set Custom Cloudiness
+- Set Custom Visual Time (Presets and Full Control)
+
+## Credits:
+
+- Credit to **DanielVNZ** for creating the original mod and allowing me to continue development
+- Credit to **Jacob** on discord for the name idea of "Weather+"
+- Credit to **NearDivinity** on discord for the mod idea
+- Credit to **Nyoko** for Logo Creation.
     </LongDescription>
     <!--Thumbnail-->
     <Thumbnail Value="Properties/Thumbnail.png"/>
@@ -22,19 +36,15 @@
     <!--Link to the forum post where the mod can be discussed-->
     <ForumLink Value="https://forum.paradoxplaza.com/forum/threads/weather.1658460/"/>
     <!--Version of the mod-->
-    <ModVersion Value="2.0.0"/>
+    <ModVersion Value="1.0.0"/>
     <!--Recommended version of the base game to use the mod-->
     <GameVersion Value="1.1.*"/>
     <!--Dependency for the mod, can be set multiple times-->
     <Dependency Id=""/>
     <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
     <ChangeLog>
-        # Patch V2.0.0
-        * Removed Gooee dependancy.
-        * Migrated settings to game settings.
-        * Fixed issue resulting in settings not saving.
-        * Localizations temporarly removed. Working on this currently.
+- Takeover Release
     </ChangeLog>
     <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
-    <ExternalLink Type="github" Url="https://github.com/DanielVNZ/WeatherPlus"/>
+    <ExternalLink Type="github" Url="https://github.com/kosch104/WeatherPlus"/>
 </Publish>
