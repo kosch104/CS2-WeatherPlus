@@ -9,15 +9,7 @@ public partial class WeatherPlusSystem : GameSystemBase
 {
     public static WeatherPlusSystem Instance;
     public ClimateSystem _climateSystem;
-    public Mod _mod;
     public PlanetarySystem _planetarySystem;
-    public bool isInitialized;
-
-
-    public WeatherPlusSystem(Mod mod)
-    {
-        _mod = mod;
-    }
 
     protected override void OnCreate()
     {
@@ -44,60 +36,8 @@ public partial class WeatherPlusSystem : GameSystemBase
 
             _planetarySystem = World.GetExistingSystemManaged<PlanetarySystem>();
             Mod.log.Info("Climate System found");
-
-            _climateSystem.temperature.overrideState = false;
-            _climateSystem.precipitation.overrideState = false;
-            _climateSystem.cloudiness.overrideState = false;
-
-
-            if (_mod.m_Setting.EnableTemperature)
-                _climateSystem.temperature.overrideState = true;
-            else
-                _climateSystem.temperature.overrideState = false;
-            if (_mod.m_Setting.EnablePrecipitation)
-                _climateSystem.precipitation.overrideState = true;
-            else
-                _climateSystem.precipitation.overrideState = false;
-
-            if (_mod.m_Setting.EnableCloudiness)
-                _climateSystem.cloudiness.overrideState = true;
-            else
-                _climateSystem.cloudiness.overrideState = false;
-
-
-            if (_mod == null)
-            {
-                Mod.log.Warn("Failed to apply settings: _mod is null.");
-            }
-            else if (_mod.m_Setting == null)
-            {
-                Mod.log.Warn("Failed to apply settings: _mod.m_Setting is null.");
-            }
-            else if (_climateSystem != null && _mod.m_Setting != null && isInitialized == false)
-            {
-                if (_mod.m_Setting.EnableTemperature)
-                    _climateSystem.temperature.overrideValue = _mod.m_Setting.Temperature;
-
-
-                if (_mod.m_Setting.EnablePrecipitation)
-                    _climateSystem.precipitation.overrideValue = _mod.m_Setting.Precipitation;
-
-                if (_mod.m_Setting.EnableCloudiness)
-                    _climateSystem.cloudiness.overrideValue = _mod.m_Setting.Cloudiness;
-
-
-                Mod.log.Info("Attempt Apply from GetExistingSystemManaged");
-                _mod.m_Setting.Apply();
-
-
-                isInitialized = true;
-
-                Mod.log.Info("Weather System Initialized");
-            }
-            else
-            {
-                Mod.log.Info("Did not run from GetExistingSystemManaged");
-            }
+            UpdateTime();
+            UpdateWeather();
         }
         else
         {
@@ -106,12 +46,16 @@ public partial class WeatherPlusSystem : GameSystemBase
         }
     }
 
+    public void UpdateTime()
+    {
+        UpdateTime(Mod.m_Setting.EnableCustomTime, Mod.m_Setting.CustomTime);
+    }
 
-    public void UpdateTimeOfDay(bool enableCustomTime, float customTime)
+    private void UpdateTime(bool overrideTime, float customTime)
     {
         if (_planetarySystem != null)
         {
-            if (enableCustomTime)
+            if (overrideTime)
             {
                 _planetarySystem.overrideTime = true;
                 _planetarySystem.time = customTime;
@@ -133,53 +77,50 @@ public partial class WeatherPlusSystem : GameSystemBase
         }
     }
 
-
-    public void UpdateWeather(float temperature, float precipitation, float cloudiness)
+    public void UpdateWeather()
     {
-        Task.Run(async () =>
+        UpdateWeather(Mod.m_Setting.EnableTemperature, Mod.m_Setting.Temperature, Mod.m_Setting.EnablePrecipitation, Mod.m_Setting.Precipitation, Mod.m_Setting.EnableCloudiness, Mod.m_Setting.Cloudiness);
+    }
+
+    private void UpdateWeather(bool overrideTemperature, float temperature, bool overridePrecipitation, float precipitation, bool overrideCloudiness, float cloudiness)
+    {
+        _climateSystem = World.GetExistingSystemManaged<ClimateSystem>();
+
+        if (_climateSystem != null)
+        {
+            _climateSystem.temperature.overrideState = overrideTemperature;
+            _climateSystem.temperature.value = temperature;
+
+            _climateSystem.precipitation.overrideState = overridePrecipitation;
+            _climateSystem.precipitation.value = precipitation;
+
+            _climateSystem.cloudiness.overrideState = overrideCloudiness;
+            _climateSystem.cloudiness.value = cloudiness;
+
+
+            Mod.log.Info("Weather updated successfully.");
+        }
+        else
+        {
+            Mod.log.Warn("Climate system is null, unable to update weather.");
+        }
+        /*Task.Run(async () =>
         {
             await Task.Delay(2000);
 
             _climateSystem = World.GetExistingSystemManaged<ClimateSystem>();
-            Mod.log.Info("UpdateWeather Ran Successfully");
-
 
             if (_climateSystem != null)
             {
-                _climateSystem.temperature.overrideState = false;
-                _climateSystem.precipitation.overrideState = false;
-                _climateSystem.cloudiness.overrideState = false;
+                _climateSystem.temperature.overrideState = overrideTemperature;
+                _climateSystem.temperature.value = temperature;
 
+                _climateSystem.precipitation.overrideState = overridePrecipitation;
+                _climateSystem.precipitation.value = precipitation;
 
-                if (_mod.m_Setting.EnableTemperature)
-                {
-                    _climateSystem.temperature.overrideState = true;
-                    _climateSystem.temperature.overrideValue = temperature;
-                }
-                else
-                {
-                    _climateSystem.temperature.overrideState = false;
-                }
+                _climateSystem.cloudiness.overrideState = overrideCloudiness;
+                _climateSystem.cloudiness.value = cloudiness;
 
-                if (_mod.m_Setting.EnablePrecipitation)
-                {
-                    _climateSystem.precipitation.overrideState = true;
-                    _climateSystem.precipitation.overrideValue = precipitation;
-                }
-                else
-                {
-                    _climateSystem.precipitation.overrideState = false;
-                }
-
-                if (_mod.m_Setting.EnableCloudiness)
-                {
-                    _climateSystem.cloudiness.overrideState = true;
-                    _climateSystem.cloudiness.overrideValue = cloudiness;
-                }
-                else
-                {
-                    _climateSystem.cloudiness.overrideState = false;
-                }
 
                 Mod.log.Info("Weather updated successfully.");
             }
@@ -187,17 +128,11 @@ public partial class WeatherPlusSystem : GameSystemBase
             {
                 Mod.log.Warn("Climate system is null, unable to update weather.");
             }
-        });
+        });*/
     }
 
 
     protected override void OnUpdate()
     {
-    }
-
-
-    public void OnGameExit()
-    {
-        isInitialized = false;
     }
 }

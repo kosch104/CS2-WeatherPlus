@@ -8,24 +8,19 @@ using Game.UI;
 namespace WeatherPlus;
 
 [FileLocation(nameof(WeatherPlus))]
-[SettingsUIGroupOrder(kButtonGroupPresets, kSliderGroup, kDropdownGroup)]
-[SettingsUIShowGroupName(kButtonGroupPresets, kSliderGroup, kDropdownGroup)]
+[SettingsUIGroupOrder(kButtonGroupPresets, kTimeGroup, kDropdownGroup)]
+[SettingsUIShowGroupName(kButtonGroupPresets, kTimeGroup, kDropdownGroup)]
 public class Setting : ModSetting
 {
     public const string kSectionWeather = "Main";
     public const string kSectionTime = "Time";
-    public const string kSectionPresets = "Presets";
-    public const string kButtonGroupPresets = "Button2";
+    public const string kButtonGroupPresets = "Presets";
     public const string kDropdownGroup = "Dropdown";
-    public const string kSliderGroup = "Slider";
+    public const string kTimeGroup = "Slider";
 
     public Setting(IMod mod) : base(mod)
     {
         Mod.log.Info("Setting initialized");
-
-
-        WeatherPlusSystem.Instance.UpdateWeather(Temperature, Precipitation, Cloudiness);
-        WeatherPlusSystem.Instance.UpdateTimeOfDay(EnableCustomTime, CustomTime);
     }
 
     //Page1 - Presets
@@ -33,54 +28,70 @@ public class Setting : ModSetting
     [SettingsUIHidden]
     public bool HiddenSetting { get; set; }
 
-    [SettingsUISection(kSectionPresets, kButtonGroupPresets)]
+    [SettingsUISection(kSectionTime, kButtonGroupPresets)]
     public bool TimeSixAM
     {
-        set => CustomTime = 6f;
+        set
+        {
+            Mod.m_Setting.CustomTime = 6f;
+            WeatherPlusSystem.Instance.UpdateTime();
+        }
     }
 
-    [SettingsUISection(kSectionPresets, kButtonGroupPresets)]
+    [SettingsUISection(kSectionTime, kButtonGroupPresets)]
     public bool TimeSevenAM
     {
-        set => CustomTime = 7f;
+        set
+        {
+            Mod.m_Setting.CustomTime = 7f;
+            WeatherPlusSystem.Instance.UpdateTime();
+        }
     }
 
-    [SettingsUISection(kSectionPresets, kButtonGroupPresets)]
+    [SettingsUISection(kSectionTime, kButtonGroupPresets)]
     public bool Day
     {
-        set => CustomTime = 13f;
+        set
+        {
+            Mod.m_Setting.CustomTime = 13f;
+            WeatherPlusSystem.Instance.UpdateTime();
+        }
     }
 
-    [SettingsUISection(kSectionPresets, kButtonGroupPresets)]
+    [SettingsUISection(kSectionTime, kButtonGroupPresets)]
     public bool Night
     {
-        set => CustomTime = 22f;
+        set
+        {
+            Mod.m_Setting.CustomTime = 22f;
+            WeatherPlusSystem.Instance.UpdateTime();
+        }
     }
 
 
     //Page2 - Custom Weather Information
 
-    [SettingsUISection(kSectionWeather, kSliderGroup)]
+    [SettingsUISection(kSectionWeather, kTimeGroup)]
     public bool EnableTemperature { get; set; }
 
     [SettingsUISlider(min = -50, max = 50, step = 1, scalarMultiplier = 1, unit = Unit.kTemperature)]
-    [SettingsUISection(kSectionWeather, kSliderGroup)]
+    [SettingsUISection(kSectionWeather, kTimeGroup)]
     public float Temperature { get; set; }
 
-    [SettingsUISection(kSectionWeather, kSliderGroup)]
+    [SettingsUISection(kSectionWeather, kTimeGroup)]
     public bool EnablePrecipitation { get; set; }
 
     [SettingsUISlider(min = 0.000f, max = 0.999f, step = 0.001f, scalarMultiplier = 1,
         unit = Unit.kFloatThreeFractions)]
-    [SettingsUISection(kSectionWeather, kSliderGroup)]
+    [SettingsUISection(kSectionWeather, kTimeGroup)]
     public float Precipitation { get; set; }
 
-    [SettingsUISection(kSectionWeather, kSliderGroup)]
+    [SettingsUISection(kSectionWeather, kTimeGroup)]
     public bool EnableCloudiness { get; set; }
 
     [SettingsUISlider(min = 0.000f, max = 0.999f, step = 0.001f, scalarMultiplier = 1,
         unit = Unit.kFloatThreeFractions)]
-    [SettingsUISection(kSectionWeather, kSliderGroup)]
+    [SettingsUISection(kSectionWeather, kTimeGroup)]
     public float Cloudiness { get; set; }
 
 
@@ -100,8 +111,8 @@ public class Setting : ModSetting
     {
         Mod.log.Info("Running Apply method...");
 
-        WeatherPlusSystem.Instance.UpdateWeather(Temperature, Precipitation, Cloudiness);
-        WeatherPlusSystem.Instance.UpdateTimeOfDay(EnableCustomTime, CustomTime);
+        WeatherPlusSystem.Instance.UpdateWeather();
+        WeatherPlusSystem.Instance.UpdateTime();
 
         Mod.log.Info("Weather updated successfully from Apply method.");
     }
@@ -130,9 +141,8 @@ public class LocaleEN : IDictionarySource
             { _setting.GetSettingsLocaleID(), "WeatherPlus" },
             { _setting.GetOptionTabLocaleID(Setting.kSectionWeather), "Weather Settings" },
             { _setting.GetOptionTabLocaleID(Setting.kSectionTime), "Time Settings" },
-            { _setting.GetOptionTabLocaleID(Setting.kSectionPresets), "Presets" },
             { _setting.GetOptionGroupLocaleID(Setting.kButtonGroupPresets), "Presets" },
-            { _setting.GetOptionGroupLocaleID(Setting.kSliderGroup), "Change Current Weather" },
+            { _setting.GetOptionGroupLocaleID(Setting.kTimeGroup), "Change Current Weather" },
             { _setting.GetOptionDescLocaleID(Setting.kSectionWeather), "Change the current weather settings." },
             {
                 _setting.GetOptionGroupLocaleID(Setting.kDropdownGroup),

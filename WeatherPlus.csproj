@@ -22,15 +22,15 @@
         <!--The file should contain 2 lines:-->
         <!--Your.PDX@Account.login-->
         <!--Your-PDX-Account-Pa$$word-->
-        <PDXAccountDataPath>$(USERPROFILE)\Documents\pdx_account.txt</PDXAccountDataPath>
+        <PDXAccountDataPath>$(USERPROFILE)\Desktop\pdx_account.txt</PDXAccountDataPath>
 
         <!--The file where mod information which is required for publishing mod on PDX mods are stored-->
         <PublishConfigurationPath>Properties\PublishConfiguration.xml</PublishConfigurationPath>
 
         <LocalMods_Location>$(USERPROFILE)\AppData\LocalLow\Colossal Order\Cities Skylines II\Mods</LocalMods_Location>
         <PDXMods_Location>$(USERPROFILE)\AppData\LocalLow\Colossal Order\Cities Skylines II\.cache\Mods\mods_subscribed\</PDXMods_Location>
-        <AssemblyVersion>1.0.0</AssemblyVersion>
-        <FileVersion>1.0.0</FileVersion>
+        <AssemblyVersion>1.0.1</AssemblyVersion>
+        <FileVersion>1.0.1</FileVersion>
     </PropertyGroup>
 
     <!--Imports must be after PropertyGroup block-->

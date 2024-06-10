@@ -11,7 +11,7 @@ public class Mod : IMod
 {
     public static ILog log = LogManager.GetLogger($"{nameof(WeatherPlus)}.{nameof(Mod)}").SetShowsErrorsInUI(false);
     public WeatherPlusSystem _weatherSystem;
-    public Setting m_Setting;
+    public static Setting m_Setting;
 
 
     public void OnLoad(UpdateSystem updateSystem)
@@ -21,7 +21,7 @@ public class Mod : IMod
 
 
         if (_weatherSystem == null)
-            _weatherSystem = new WeatherPlusSystem(this);
+            _weatherSystem = new WeatherPlusSystem();
 
 
         World.DefaultGameObjectInjectionWorld.AddSystemManaged(_weatherSystem);
@@ -41,7 +41,5 @@ public class Mod : IMod
     public void OnDispose()
     {
         log.Info("OnDispose Ran Successfully, set isInitialiszed to FALSE.");
-
-        _weatherSystem.isInitialized = false;
     }
 }
