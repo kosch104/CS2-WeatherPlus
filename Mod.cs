@@ -31,6 +31,7 @@ public class Mod : IMod
         m_Setting.RegisterInOptionsUI();
         GameManager.instance.localizationManager.AddSource("en-US", new LocaleEN(m_Setting));
         AssetDatabase.global.LoadSettings(nameof(WeatherPlus), m_Setting, new Setting(this));
+        m_Setting.FreezeVisualTime = false;
         m_Setting.Apply();
 
         updateSystem.UpdateAt<WeatherPlusSystem>(SystemUpdatePhase.MainLoop);

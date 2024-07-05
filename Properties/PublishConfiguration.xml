@@ -17,7 +17,7 @@ Please note that only the visual time is changed, the actual simulation is not a
 - Set Custom Temperature
 - Set Custom Precipitation
 - Set Custom Cloudiness
-- Set Custom Visual Time (Presets and Full Control)
+- Set Custom Visual Time (Presets, Golden Hour still WIP)
 
 ## Credits:
 
@@ -36,15 +36,16 @@ Please note that only the visual time is changed, the actual simulation is not a
     <!--Link to the forum post where the mod can be discussed-->
     <ForumLink Value="https://forum.paradoxplaza.com/forum/threads/weather.1658460/"/>
     <!--Version of the mod-->
-    <ModVersion Value="1.0.1"/>
+    <ModVersion Value="1.1.0"/>
     <!--Recommended version of the base game to use the mod-->
     <GameVersion Value="1.1.*"/>
     <!--Dependency for the mod, can be set multiple times-->
     <Dependency Id=""/>
     <!--Change log for new version. Single line or multi line. Supports minimal markdown subset-->
     <ChangeLog>
-- Merge Presets and Time Tab
-- Selecting a Preset now automatically activates custom time
+- Rework Settings Page
+- Fix Temperature not working correctly
+- Various bug fixes and code improvements
     </ChangeLog>
     <!--External link. supported types are discord, github, youtube, twitch, x, paypal, patreon-->
     <ExternalLink Type="github" Url="https://github.com/kosch104/WeatherPlus"/>

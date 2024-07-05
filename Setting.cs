@@ -7,14 +7,13 @@ using Game.UI;
 
 namespace WeatherPlus;
 
-[FileLocation(nameof(WeatherPlus))]
-[SettingsUIGroupOrder(kButtonGroupPresets, kTimeGroup, kDropdownGroup)]
-[SettingsUIShowGroupName(kButtonGroupPresets, kTimeGroup, kDropdownGroup)]
+[FileLocation($"ModsSettings/{nameof(WeatherPlus)}/{nameof(WeatherPlus)}")]
+[SettingsUIGroupOrder(kTimeGroup, kDropdownGroup)]
+[SettingsUIShowGroupName(kTimeGroup, kDropdownGroup)]
 public class Setting : ModSetting
 {
     public const string kSectionWeather = "Main";
     public const string kSectionTime = "Time";
-    public const string kButtonGroupPresets = "Presets";
     public const string kDropdownGroup = "Dropdown";
     public const string kTimeGroup = "Slider";
 
@@ -23,100 +22,132 @@ public class Setting : ModSetting
         Mod.log.Info("Setting initialized");
     }
 
-    //Page1 - Presets
+    private TimeOfDayOverride _timeOfDay;
+
+    [SettingsUISection(kSectionTime, kDropdownGroup)]
+    public TimeOfDayOverride TimeOfDay
+    {
+        get => _timeOfDay;
+        set
+        {
+            _timeOfDay = value;
+            WeatherPlusSystem.Instance.UpdateTime();
+        }
+    }
+
+    private bool _freezeVisualTime;
 
     [SettingsUIHidden]
-    public bool HiddenSetting { get; set; }
-
-    [SettingsUISection(kSectionTime, kButtonGroupPresets)]
-    public bool TimeSixAM
+    [SettingsUISection(kSectionTime, kDropdownGroup)]
+    public bool FreezeVisualTime
     {
+        get => _freezeVisualTime;
         set
         {
-            Mod.m_Setting.CustomTime = 6f;
+            _freezeVisualTime = value;
             WeatherPlusSystem.Instance.UpdateTime();
         }
     }
-
-    [SettingsUISection(kSectionTime, kButtonGroupPresets)]
-    public bool TimeSevenAM
-    {
-        set
-        {
-            Mod.m_Setting.CustomTime = 7f;
-            WeatherPlusSystem.Instance.UpdateTime();
-        }
-    }
-
-    [SettingsUISection(kSectionTime, kButtonGroupPresets)]
-    public bool Day
-    {
-        set
-        {
-            Mod.m_Setting.CustomTime = 13f;
-            WeatherPlusSystem.Instance.UpdateTime();
-        }
-    }
-
-    [SettingsUISection(kSectionTime, kButtonGroupPresets)]
-    public bool Night
-    {
-        set
-        {
-            Mod.m_Setting.CustomTime = 22f;
-            WeatherPlusSystem.Instance.UpdateTime();
-        }
-    }
-
 
     //Page2 - Custom Weather Information
 
+    private bool _enableTemperature;
     [SettingsUISection(kSectionWeather, kTimeGroup)]
-    public bool EnableTemperature { get; set; }
+    public bool EnableTemperature
+    {
+        get => _enableTemperature;
+        set
+        {
+            _enableTemperature = value;
+            WeatherPlusSystem.Instance.UpdateWeather();
+        }
+    }
 
+    private float _temperature;
     [SettingsUISlider(min = -50, max = 50, step = 1, scalarMultiplier = 1, unit = Unit.kTemperature)]
     [SettingsUISection(kSectionWeather, kTimeGroup)]
-    public float Temperature { get; set; }
+    public float Temperature
+    {
+        get => _temperature;
+        set
+        {
+            _temperature = value;
+            EnableTemperature = true;
+            WeatherPlusSystem.Instance.UpdateWeather();
+        }
+    }
 
+    private bool _enablePrecipitation;
     [SettingsUISection(kSectionWeather, kTimeGroup)]
-    public bool EnablePrecipitation { get; set; }
+    public bool EnablePrecipitation
+    {
+        get => _enablePrecipitation;
+        set
+        {
+            _enablePrecipitation = value;
+            WeatherPlusSystem.Instance.UpdateWeather();
+        }
+    }
 
+    private float _precipitation;
     [SettingsUISlider(min = 0.000f, max = 0.999f, step = 0.001f, scalarMultiplier = 1,
         unit = Unit.kFloatThreeFractions)]
     [SettingsUISection(kSectionWeather, kTimeGroup)]
-    public float Precipitation { get; set; }
+    public float Precipitation
+    {
+        get => _precipitation;
+        set
+        {
+            _precipitation = value;
+            _enablePrecipitation = true;
+            WeatherPlusSystem.Instance.UpdateWeather();
+        }
+    }
 
+    private bool _enableCloudiness;
     [SettingsUISection(kSectionWeather, kTimeGroup)]
-    public bool EnableCloudiness { get; set; }
+    public bool EnableCloudiness
+    {
+        get => _enableCloudiness;
+        set
+        {
+            _enableCloudiness = value;
+            WeatherPlusSystem.Instance.UpdateWeather();
+        }
+    }
 
+    private float _cloudiness;
     [SettingsUISlider(min = 0.000f, max = 0.999f, step = 0.001f, scalarMultiplier = 1,
         unit = Unit.kFloatThreeFractions)]
     [SettingsUISection(kSectionWeather, kTimeGroup)]
-    public float Cloudiness { get; set; }
+    public float Cloudiness
+    {
+        get => _cloudiness;
+        set
+        {
+            _cloudiness = value;
+            EnableTemperature = true;
+            WeatherPlusSystem.Instance.UpdateWeather();
+        }
+    }
 
 
     //Page3 - Time Information
 
-
-    [SettingsUISection(kSectionTime, kDropdownGroup)]
-    public bool EnableCustomTime { get; set; }
-
+    private float _customTime;
 
     [SettingsUISlider(min = 0, max = 23.99f, step = 0.10f, scalarMultiplier = 1, unit = Unit.kFloatTwoFractions)]
     [SettingsUISection(kSectionTime, kDropdownGroup)]
-    public float CustomTime { get; set; }
-
-
-    public override void Apply()
+    [SettingsUIHidden]
+    public float CustomTime
     {
-        Mod.log.Info("Running Apply method...");
-
-        WeatherPlusSystem.Instance.UpdateWeather();
-        WeatherPlusSystem.Instance.UpdateTime();
-
-        Mod.log.Info("Weather updated successfully from Apply method.");
+        get => _customTime;
+        set
+        {
+            _customTime = value;
+            //FreezeVisualTime = true;
+        }
     }
-
 
     public override void SetDefaults()
     {
@@ -141,7 +172,6 @@ public class LocaleEN : IDictionarySource
             { _setting.GetSettingsLocaleID(), "WeatherPlus" },
             { _setting.GetOptionTabLocaleID(Setting.kSectionWeather), "Weather Settings" },
             { _setting.GetOptionTabLocaleID(Setting.kSectionTime), "Time Settings" },
-            { _setting.GetOptionGroupLocaleID(Setting.kButtonGroupPresets), "Presets" },
             { _setting.GetOptionGroupLocaleID(Setting.kTimeGroup), "Change Current Weather" },
             { _setting.GetOptionDescLocaleID(Setting.kSectionWeather), "Change the current weather settings." },
             {
@@ -150,10 +180,16 @@ public class LocaleEN : IDictionarySource
             },
 
 
-            { _setting.GetOptionLabelLocaleID(nameof(Setting.TimeSixAM)), "6:00AM" },
-            { _setting.GetOptionDescLocaleID(nameof(Setting.TimeSixAM)), "Sets the time to 6:00AM" },
-            { _setting.GetOptionLabelLocaleID(nameof(Setting.TimeSevenAM)), "7:00AM" },
-            { _setting.GetOptionDescLocaleID(nameof(Setting.TimeSevenAM)), "Sets the time to 7:00AM" },
+            { _setting.GetOptionLabelLocaleID(nameof(Setting.TimeOfDay)), "Time of Day Override" },
+            {
+                _setting.GetOptionDescLocaleID(nameof(Setting.TimeOfDay)),
+                "Set a preset to override the time of day. Set to off to disable."
+            },
+
+            { _setting.GetEnumValueLocaleID(TimeOfDayOverride.Off), "Off" },
+            { _setting.GetEnumValueLocaleID(TimeOfDayOverride.Day), "Day" },
+            { _setting.GetEnumValueLocaleID(TimeOfDayOverride.Night), "Night" },
+            { _setting.GetEnumValueLocaleID(TimeOfDayOverride.GoldenHour), "Golden Hour (WIP)" },
 
 
             { _setting.GetOptionLabelLocaleID(nameof(Setting.Cloudiness)), "Current Cloudiness" },
@@ -188,14 +224,10 @@ public class LocaleEN : IDictionarySource
                 "Tick to enable a custom cloudiness value"
             },
 
-            { _setting.GetOptionLabelLocaleID(nameof(Setting.Night)), "Night" },
-            { _setting.GetOptionDescLocaleID(nameof(Setting.Night)), "Sets the time to night" },
-            { _setting.GetOptionLabelLocaleID(nameof(Setting.Day)), "Day" },
-            { _setting.GetOptionDescLocaleID(nameof(Setting.Day)), "Sets the time to day" },
             { _setting.GetOptionLabelLocaleID(nameof(Setting.CustomTime)), "Custom Time" },
             { _setting.GetOptionDescLocaleID(nameof(Setting.CustomTime)), "Slider is between 0 and 23.99 hours." },
-            { _setting.GetOptionLabelLocaleID(nameof(Setting.EnableCustomTime)), "Use Custom Time?" },
-            { _setting.GetOptionDescLocaleID(nameof(Setting.EnableCustomTime)), "Enables use of below slider." }
+            { _setting.GetOptionLabelLocaleID(nameof(Setting.FreezeVisualTime)), "Freeze Visual Time" },
+            { _setting.GetOptionDescLocaleID(nameof(Setting.FreezeVisualTime)), "Enables use of below slider." }
         };
     }
 

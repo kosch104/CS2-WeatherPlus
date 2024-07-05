@@ -1,23 +1,36 @@
 ﻿using System.Threading.Tasks;
 using Colossal.Serialization.Entities;
 using Game;
+using Game.Rendering;
 using Game.Simulation;
+using UnityEngine;
 
 namespace WeatherPlus;
+
+public enum TimeOfDayOverride
+{
+    Off = 0,
+    Night,
+    Day,
+    GoldenHour,
+}
 
 public partial class WeatherPlusSystem : GameSystemBase
 {
     public static WeatherPlusSystem Instance;
     public ClimateSystem _climateSystem;
     public PlanetarySystem _planetarySystem;
+    public LightingSystem _lightingSystem;
+    public bool IsInitialized;
+    private bool seekGoldenHour;
+    private float targetVisualTime;
 
     protected override void OnCreate()
     {
         base.OnCreate();
 
-
+        Enabled = true;
         Mod.log.Info("OnCreate Ran Successfully");
-        _climateSystem = World.GetExistingSystemManaged<ClimateSystem>();
     }
 
     protected override void OnGameLoadingComplete(Purpose purpose, GameMode mode)
@@ -25,114 +38,95 @@ public partial class WeatherPlusSystem : GameSystemBase
         base.OnGameLoadingComplete(purpose, mode);
 
         if (!mode.IsGameOrEditor())
-
             return;
-
-
-        if (mode.IsGameOrEditor())
+        if ( _lightingSystem == null )
         {
-            _climateSystem = World.GetExistingSystemManaged<ClimateSystem>();
-            Mod.log.Info("Climate System found");
-
-            _planetarySystem = World.GetExistingSystemManaged<PlanetarySystem>();
-            Mod.log.Info("Climate System found");
-            UpdateTime();
-            UpdateWeather();
+            _lightingSystem = World.GetExistingSystemManaged<LightingSystem>( );
+            _climateSystem = World.GetExistingSystemManaged<ClimateSystem>( );
+            _planetarySystem = World.GetExistingSystemManaged<PlanetarySystem>( );
         }
-        else
-        {
-            Mod.log.Info("Mode is not game or editor");
-            Mod.log.Warn($"Setting is {(_climateSystem == null ? "null" : "not null")}");
-        }
+        UpdateTime();
+        UpdateWeather();
+        IsInitialized = true;
     }
 
     public void UpdateTime()
     {
-        UpdateTime(Mod.m_Setting.EnableCustomTime, Mod.m_Setting.CustomTime);
-    }
-
-    private void UpdateTime(bool overrideTime, float customTime)
-    {
-        if (_planetarySystem != null)
+        if (_planetarySystem == null)
+            return;
+        if ( Mod.m_Setting.FreezeVisualTime && Mod.m_Setting.TimeOfDay == TimeOfDayOverride.Off )
         {
-            if (overrideTime)
-            {
-                _planetarySystem.overrideTime = true;
-                _planetarySystem.time = customTime;
-            }
-
-            else
-            {
-                _planetarySystem.overrideTime = false;
-
-            }
-        }
-        else if (_planetarySystem != null)
-        {
-            _planetarySystem.overrideTime = false;
+            _planetarySystem.overrideTime = true;
         }
         else
         {
-            Mod.log.Warn("Planetary system is null, unable to update time of day.");
+            switch ( Mod.m_Setting.TimeOfDay )
+            {
+                default:
+                case TimeOfDayOverride.Off:
+                    if ( !Mod.m_Setting.FreezeVisualTime )
+                        _planetarySystem.overrideTime = false;
+                    targetVisualTime = 0f;
+                    break;
+
+                case TimeOfDayOverride.Night:
+                    _planetarySystem.overrideTime = true;
+                    targetVisualTime = 0f;
+                    break;
+
+                case TimeOfDayOverride.GoldenHour:
+                    _planetarySystem.overrideTime = true;
+
+                    _planetarySystem.time = 0f;
+                    targetVisualTime = 24f;
+                    seekGoldenHour = true;
+                    break;
+
+                case TimeOfDayOverride.Day:
+                    _planetarySystem.overrideTime = true;
+                    targetVisualTime = 12f;
+                    break;
+            }
         }
     }
 
     public void UpdateWeather()
     {
-        UpdateWeather(Mod.m_Setting.EnableTemperature, Mod.m_Setting.Temperature, Mod.m_Setting.EnablePrecipitation, Mod.m_Setting.Precipitation, Mod.m_Setting.EnableCloudiness, Mod.m_Setting.Cloudiness);
+        if (_climateSystem == null)
+            return;
+        _climateSystem.temperature.overrideValue = Mod.m_Setting.Temperature;
+        _climateSystem.temperature.overrideState = Mod.m_Setting.EnableTemperature;
+        //Mod.log.Warn("Temperature should be at at " + Mod.m_Setting.Temperature);
+        //Mod.log.Warn("Temperature is now at " + _climateSystem.temperature.value);
+
+        _climateSystem.precipitation.overrideValue = Mod.m_Setting.Precipitation;
+        _climateSystem.precipitation.overrideState = Mod.m_Setting.EnablePrecipitation;
+
+        _climateSystem.cloudiness.overrideValue = Mod.m_Setting.Cloudiness;
+        _climateSystem.cloudiness.overrideState = Mod.m_Setting.EnableCloudiness;
     }
 
-    private void UpdateWeather(bool overrideTemperature, float temperature, bool overridePrecipitation, float precipitation, bool overrideCloudiness, float cloudiness)
+    /// <summary>
+    /// Check if it's sunrise or sunset
+    /// </summary>
+    /// <returns></returns>
+    private bool IsSunriseOrSunset( )
     {
-        _climateSystem = World.GetExistingSystemManaged<ClimateSystem>();
-
-        if (_climateSystem != null)
-        {
-            _climateSystem.temperature.overrideState = overrideTemperature;
-            _climateSystem.temperature.value = temperature;
-
-            _climateSystem.precipitation.overrideState = overridePrecipitation;
-            _climateSystem.precipitation.value = precipitation;
-
-            _climateSystem.cloudiness.overrideState = overrideCloudiness;
-            _climateSystem.cloudiness.value = cloudiness;
-
-
-            Mod.log.Info("Weather updated successfully.");
-        }
-        else
-        {
-            Mod.log.Warn("Climate system is null, unable to update weather.");
-        }
-        /*Task.Run(async () =>
-        {
-            await Task.Delay(2000);
-
-            _climateSystem = World.GetExistingSystemManaged<ClimateSystem>();
-
-            if (_climateSystem != null)
-            {
-                _climateSystem.temperature.overrideState = overrideTemperature;
-                _climateSystem.temperature.value = temperature;
-
-                _climateSystem.precipitation.overrideState = overridePrecipitation;
-                _climateSystem.precipitation.value = precipitation;
-
-                _climateSystem.cloudiness.overrideState = overrideCloudiness;
-                _climateSystem.cloudiness.value = cloudiness;
-
-
-                Mod.log.Info("Weather updated successfully.");
-            }
-            else
-            {
-                Mod.log.Warn("Climate system is null, unable to update weather.");
-            }
-        });*/
+        return _lightingSystem.state == LightingSystem.State.Sunset || _lightingSystem.state == LightingSystem.State.Sunrise;
     }
 
-
-    protected override void OnUpdate()
+    protected override void OnUpdate( )
     {
+        if ( !IsInitialized || _planetarySystem == null || !Mod.m_Setting.FreezeVisualTime )
+            return;
+
+        if ( seekGoldenHour && IsSunriseOrSunset())
+        {
+            seekGoldenHour = false;
+            Mod.m_Setting.CustomTime = _planetarySystem.time;
+        }
+        //Mod.log.Info("Current time: " + _planetarySystem.time + "\nTarget time: " + targetVisualTime);
+        _planetarySystem.time = Mathf.Lerp( _planetarySystem.time, targetVisualTime , 1.5f * UnityEngine.Time.deltaTime);
+        //Mod.log.Info("After Current time: " + _planetarySystem.time + "\nTarget time: " + targetVisualTime);
     }
 }
