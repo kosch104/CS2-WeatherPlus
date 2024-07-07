@@ -72,7 +72,6 @@ public class Setting : ModSetting
         set
         {
             _temperature = value;
-            EnableTemperature = true;
             WeatherPlusSystem.Instance.UpdateWeather();
         }
     }
@@ -99,7 +98,6 @@ public class Setting : ModSetting
         set
         {
             _precipitation = value;
-            _enablePrecipitation = true;
             WeatherPlusSystem.Instance.UpdateWeather();
         }
     }
@@ -126,7 +124,6 @@ public class Setting : ModSetting
         set
         {
             _cloudiness = value;
-            EnableTemperature = true;
             WeatherPlusSystem.Instance.UpdateWeather();
         }
     }
